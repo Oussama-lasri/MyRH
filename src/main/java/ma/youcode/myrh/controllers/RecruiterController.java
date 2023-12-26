@@ -6,10 +6,7 @@ import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.services.implementations.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 @RequestMapping("api/v1/recruiters")
@@ -21,6 +18,20 @@ public class RecruiterController {
     @PostMapping
     public ResponseEntity<RecruiterDTO> create(@Valid @RequestBody RecruiterDTO recruiterToSave){
         RecruiterDTO recruiterDTO = recruiterService.save(recruiterToSave);
+        return ResponseEntity.ok(recruiterDTO);
+    }
+
+    @PostMapping("/{id}/{code}/validation")
+    public ResponseEntity<String> create(@PathVariable long id, @PathVariable String code) {
+        String recruiterDTO = recruiterService.validateAccount(id, code);
+        return ResponseEntity.ok(recruiterDTO);
+    }
+
+    @GetMapping("/{id}/resend-validation-code")
+    public ResponseEntity<String> resendValidationCode(
+            @PathVariable long id
+    ) {
+        String recruiterDTO = recruiterService.resendValidationCode(id);
         return ResponseEntity.ok(recruiterDTO);
     }
 }
