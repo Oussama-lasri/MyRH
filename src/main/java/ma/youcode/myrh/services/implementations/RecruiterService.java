@@ -8,6 +8,8 @@ import ma.youcode.myrh.utils.EmailService;
 import ma.youcode.myrh.utils.ValidationCodeGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -24,6 +26,7 @@ public class RecruiterService implements IRecruiterService {
 
     @Autowired
     private EmailService emailService;
+    private static final int VALIDATION_CODE_EXPIRATION_MINUTES = 3;
 
     @Override
     public RecruiterDTO save(RecruiterDTO recruiterDTO) {
@@ -44,11 +47,15 @@ public class RecruiterService implements IRecruiterService {
         return modelMapper.map(recruiter, RecruiterDTO.class);
     }
 
+    @Override
+    public Page<RecruiterDTO> findAll(Pageable pageable) {
+        Page<Recruiter> recruiters = recruiterRepository.findAll(pageable);
+        return recruiters.map(recruiter -> modelMapper.map(recruiter, RecruiterDTO.class));
+    }
+
     private void sendValidationCodeByEmail(String email, String code) {
         emailService.sendSimpleMessage(email, "Recruiter validation code", code);
     }
-
-    private static final int VALIDATION_CODE_EXPIRATION_MINUTES = 3;
 
     public String validateAccount(long recruiterId, String code) {
         Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);

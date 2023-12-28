@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.services.implementations.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
@@ -33,5 +35,12 @@ public class RecruiterController {
     ) {
         String recruiterDTO = recruiterService.resendValidationCode(id);
         return ResponseEntity.ok(recruiterDTO);
+    }
+
+
+    @GetMapping()
+    public ResponseEntity<Page<RecruiterDTO>> getAll(Pageable pageable){
+        Page<RecruiterDTO> recruiters = recruiterService.findAll(pageable);
+        return ResponseEntity.ok(recruiters);
     }
 }
