@@ -20,6 +20,11 @@ public class SecConfig  {
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(withDefaults())
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions
+                                .disable()
+                        )
+                )
                 .build();
     }
 }
