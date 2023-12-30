@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @Service
 public class RecruiterService implements IRecruiterService {
-
     @Autowired
     IRecruiterRepository recruiterRepository;
     @Autowired
@@ -44,6 +43,12 @@ public class RecruiterService implements IRecruiterService {
         sendValidationCodeByEmail(recruiter.getEmail(), code);
         recruiter = recruiterRepository.save(recruiter);
 
+        return modelMapper.map(recruiter, RecruiterDTO.class);
+    }
+
+    @Override
+    public RecruiterDTO findByEmail(String email) {
+        Recruiter recruiter = recruiterRepository.findRecruiterByEmail(email);
         return modelMapper.map(recruiter, RecruiterDTO.class);
     }
 
