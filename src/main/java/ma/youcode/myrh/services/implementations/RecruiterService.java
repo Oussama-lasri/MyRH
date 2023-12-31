@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -22,6 +23,8 @@ public class RecruiterService implements IRecruiterService {
     IRecruiterRepository recruiterRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EmailService emailService;
@@ -41,6 +44,8 @@ public class RecruiterService implements IRecruiterService {
         recruiter.setCodeValidation(code);
 
         sendValidationCodeByEmail(recruiter.getEmail(), code);
+
+        recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
         recruiter = recruiterRepository.save(recruiter);
 
         return modelMapper.map(recruiter, RecruiterDTO.class);
