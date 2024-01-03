@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 //@EqualsAndHashCode(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -24,4 +25,7 @@ public class Recruiter extends User{
     private String codeValidation;
     private LocalDateTime codeValidationTimestamp = LocalDateTime.now();
     private Boolean isValid = false;
+
+    @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL)
+    private List<JobOffer> jobOffers;
 }
