@@ -38,7 +38,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
             }
-
             throw new RuntimeException(e.getMessage());
         }
     }

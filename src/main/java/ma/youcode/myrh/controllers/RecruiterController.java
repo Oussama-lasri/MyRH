@@ -18,7 +18,7 @@ public class RecruiterController {
     @Autowired
     RecruiterService recruiterService;
     @PostMapping
-    public ResponseEntity<RecruiterDTO> create(@Valid @RequestBody RecruiterDTO recruiterToSave){
+    public ResponseEntity<RecruiterDTO> create(@ModelAttribute RecruiterDTO recruiterToSave){
         RecruiterDTO recruiterDTO = recruiterService.save(recruiterToSave);
         return ResponseEntity.ok(recruiterDTO);
     }

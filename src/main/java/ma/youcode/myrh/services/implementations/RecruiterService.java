@@ -1,8 +1,10 @@
 package ma.youcode.myrh.services.implementations;
 
 import ma.youcode.myrh.dtos.RecruiterDTO;
+import ma.youcode.myrh.dtos.ResponseMessage;
 import ma.youcode.myrh.models.Recruiter;
 import ma.youcode.myrh.repositories.IRecruiterRepository;
+import ma.youcode.myrh.services.FilesStorageService;
 import ma.youcode.myrh.services.IRecruiterService;
 import ma.youcode.myrh.utils.EmailService;
 import ma.youcode.myrh.utils.ValidationCodeGenerator;
@@ -10,8 +12,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
@@ -19,6 +24,10 @@ import java.util.Optional;
 
 @Service
 public class RecruiterService implements IRecruiterService {
+
+    @Autowired
+    FilesStorageService storageService;
+
     @Autowired
     IRecruiterRepository recruiterRepository;
     @Autowired
@@ -46,6 +55,14 @@ public class RecruiterService implements IRecruiterService {
         sendValidationCodeByEmail(recruiter.getEmail(), code);
 
         recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
+
+        MultipartFile imageFile = recruiterDTO.getImage();
+        try {
+            storageService.save(imageFile);
+        } catch (Exception e) {
+            return null;
+        }
+
         recruiter = recruiterRepository.save(recruiter);
 
         return modelMapper.map(recruiter, RecruiterDTO.class);

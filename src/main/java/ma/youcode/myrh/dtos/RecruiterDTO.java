@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -22,5 +23,5 @@ public class RecruiterDTO {
     @NotBlank(message = "address is required")
     private String address;
     @NotBlank(message = "image is required")
-    private String image;
+    private MultipartFile image;
 }
