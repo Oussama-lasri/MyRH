@@ -58,11 +58,12 @@ public class RecruiterService implements IRecruiterService {
 
         MultipartFile imageFile = recruiterDTO.getImage();
         try {
-            storageService.save(imageFile);
+            storageService.save(imageFile, "image");
         } catch (Exception e) {
             return null;
         }
 
+        recruiter.setImage(imageFile.getOriginalFilename());
         recruiter = recruiterRepository.save(recruiter);
 
         return modelMapper.map(recruiter, RecruiterDTO.class);

@@ -28,7 +28,7 @@ public class JobOfferController {
     @GetMapping("/search={title}")
     public ResponseEntity<List<JobOfferDTO>> resendValidationCode(
             @PathVariable String title) {
-        List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByTitle(title)
+        List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByTitle(title);
         return ResponseEntity.ok(jobOfferDTOList);
     }
 

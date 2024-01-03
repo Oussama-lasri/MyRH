@@ -14,8 +14,5 @@ public interface IJobOfferRepository extends JpaRepository<JobOffer, Long> {
     JobOffer save(JobOffer jobOffer);
     List<JobOffer> findByRecruiter(Recruiter recruiter);
 
-    JobOffer findByTitle(String title);
     List<JobOffer> findByTitleContainsIgnoreCase(String title);
-
-    Page<JobOffer> findAllPageable(Pageable pageable);
 }

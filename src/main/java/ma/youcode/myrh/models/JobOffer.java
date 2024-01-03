@@ -28,4 +28,7 @@ public class JobOffer{
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;
+
+    @OneToMany(mappedBy = "jobOffer", cascade = CascadeType.ALL)
+    private List<Resume> resumes;
 }

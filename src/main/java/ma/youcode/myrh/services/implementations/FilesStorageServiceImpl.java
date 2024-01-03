@@ -20,20 +20,34 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesStorageServiceImpl implements FilesStorageService {
 
     private final Path root = Paths.get("uploads");
+    private final Path images = Paths.get(root + "/images");
+    private final Path resumes = Paths.get(root + "/resumes");
 
     @Override
     public void init() {
         try {
             Files.createDirectories(root);
+            Files.createDirectories(images);
+            Files.createDirectories(resumes);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
     }
 
     @Override
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, String type) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            switch (type) {
+                case "image":
+                    Files.copy(file.getInputStream(), this.images.resolve(file.getOriginalFilename()));
+                    break;
+                case "resume":
+                    Files.copy(file.getInputStream(), this.resumes.resolve(file.getOriginalFilename()));
+                    break;
+                default:
+                    Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+                    break;
+            }
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -41,7 +55,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
     @Override
     public Resource load(String filename) {
         try {
