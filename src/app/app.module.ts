@@ -8,6 +8,9 @@ import { AgentsComponent } from './components/agents/agents.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/includes/footer/footer.component';
 import { NavbarComponent } from './components/includes/navbar/navbar.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,11 +19,14 @@ import { NavbarComponent } from './components/includes/navbar/navbar.component';
     AgentsComponent,
     HomeComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    DashboardComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
