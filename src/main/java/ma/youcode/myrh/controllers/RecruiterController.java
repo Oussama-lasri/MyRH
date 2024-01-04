@@ -11,7 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @RequestMapping("api/v1/recruiters")
+@CrossOrigin("*")
 @RestController
 public class RecruiterController {
 
@@ -19,6 +23,7 @@ public class RecruiterController {
     RecruiterService recruiterService;
     @PostMapping
     public ResponseEntity<RecruiterDTO> create(@ModelAttribute RecruiterDTO recruiterToSave){
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, recruiterToSave.toString());
         RecruiterDTO recruiterDTO = recruiterService.save(recruiterToSave);
         return ResponseEntity.ok(recruiterDTO);
     }

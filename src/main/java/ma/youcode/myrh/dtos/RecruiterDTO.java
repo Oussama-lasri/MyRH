@@ -27,8 +27,6 @@ public class RecruiterDTO extends UserDTO{
     @NotBlank(message = "address is required")
     private String address;
 
-    @NotBlank(message = "image is required")
+//    @NotBlank(message = "image is required")
     private MultipartFile image;
-
-    private String imagePath;
 }
