@@ -15,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("api/v1/jobOffers")
 @RestController
+@CrossOrigin("*")
 public class JobOfferController {
 
     @Autowired
@@ -29,9 +30,16 @@ public class JobOfferController {
     }
 
     @GetMapping("/search={title}")
-    public ResponseEntity<List<JobOfferDTO>> resendValidationCode(
+    public ResponseEntity<List<JobOfferDTO>> searchByTitle(
             @PathVariable String title) {
         List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByTitle(title);
+        return ResponseEntity.ok(jobOfferDTOList);
+    }
+
+    @GetMapping("/status={status}")
+    public ResponseEntity<List<JobOfferDTO>> searchByStatus(
+            @PathVariable String status) {
+        List<JobOfferDTO> jobOfferDTOList = jobOfferService.findAllByStatus(status);
         return ResponseEntity.ok(jobOfferDTOList);
     }
 

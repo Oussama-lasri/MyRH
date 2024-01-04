@@ -71,6 +71,13 @@ public class JobOfferService implements IJobOfferService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<JobOfferDTO> findAllByStatus(String status) {
+        List<JobOffer> jobOffers = jobOfferRepository.findByStatus(Enum.valueOf(Status.class, status));
+        return jobOffers.stream()
+                .map(jobOffer -> modelMapper.map(jobOffer, JobOfferDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
     @Override

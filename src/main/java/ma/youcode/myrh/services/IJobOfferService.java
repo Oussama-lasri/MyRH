@@ -18,5 +18,7 @@ public interface IJobOfferService {
      Page<JobOfferDTO> findAllPageable(Pageable pageable);
      List<JobOfferDTO> findAll();
 
+     List<JobOfferDTO> findAllByStatus(String status);
+
      String updateStatus(long id, Status newStatus);
 }
