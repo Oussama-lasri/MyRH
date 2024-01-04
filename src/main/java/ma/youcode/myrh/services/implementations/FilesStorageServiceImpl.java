@@ -20,34 +20,23 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesStorageServiceImpl implements FilesStorageService {
 
     private final Path root = Paths.get("uploads");
-    private final Path images = Paths.get(root + "/images");
-    private final Path resumes = Paths.get(root + "/resumes");
 
     @Override
     public void init() {
         try {
             Files.createDirectories(root);
-            Files.createDirectories(images);
-            Files.createDirectories(resumes);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
     }
 
     @Override
-    public void save(MultipartFile file, String type) {
+    public void save(MultipartFile file) {
+        if (load(file.getOriginalFilename()) != null) {
+            return;
+        }
         try {
-            switch (type) {
-                case "image":
-                    Files.copy(file.getInputStream(), this.images.resolve(file.getOriginalFilename()));
-                    break;
-                case "resume":
-                    Files.copy(file.getInputStream(), this.resumes.resolve(file.getOriginalFilename()));
-                    break;
-                default:
-                    Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-                    break;
-            }
+            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -55,16 +44,18 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
     @Override
     public Resource load(String filename) {
         try {
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
-
+            System.out.println(filename);
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("Could not read the file!");
+                return null;
+//                throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());

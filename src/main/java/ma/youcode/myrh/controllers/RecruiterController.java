@@ -36,8 +36,6 @@ public class RecruiterController {
         String recruiterDTO = recruiterService.resendValidationCode(id);
         return ResponseEntity.ok(recruiterDTO);
     }
-
-
     @GetMapping()
     public ResponseEntity<Page<RecruiterDTO>> getAll(Pageable pageable){
         Page<RecruiterDTO> recruiters = recruiterService.findAll(pageable);

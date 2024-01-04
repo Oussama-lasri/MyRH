@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "joboffers")
-public class JobOffer{
+public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +28,9 @@ public class JobOffer{
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;
-
+    @ManyToOne
+    @JoinColumn(name = "agent_id")
+    private Agent agent;
     @OneToMany(mappedBy = "jobOffer", cascade = CascadeType.ALL)
     private List<Resume> resumes;
 }

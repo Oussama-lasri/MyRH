@@ -28,4 +28,8 @@ public class Recruiter extends User{
 
     @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL)
     private List<JobOffer> jobOffers;
+
+    @ManyToOne
+    @JoinColumn(name = "agent_id")
+    private Agent agent;
 }

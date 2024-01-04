@@ -2,6 +2,7 @@ package ma.youcode.myrh.controllers;
 
 
 import ma.youcode.myrh.dtos.ResumeDTO;
+import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.services.IResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class ResumeController {
         ResumeDTO resumeDTO = resumeService.save(resumeToSave, jobOfferId);
         return ResponseEntity.ok(resumeDTO);
     }
+
 
     @GetMapping()
     public ResponseEntity<List<ResumeDTO>> getAll() {

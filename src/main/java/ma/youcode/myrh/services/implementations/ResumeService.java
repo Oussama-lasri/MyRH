@@ -6,6 +6,7 @@ import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.models.JobOffer;
 import ma.youcode.myrh.models.Resume;
 import ma.youcode.myrh.models.Recruiter;
+import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.repositories.IJobOfferRepository;
 import ma.youcode.myrh.repositories.IResumeRepository;
 import ma.youcode.myrh.services.FilesStorageService;
@@ -48,9 +49,9 @@ public class ResumeService implements IResumeService {
 
         MultipartFile resumeFile = resumeDTO.getResume();
         try {
-            storageService.save(resumeFile, "resume");
+            storageService.save(resumeFile);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
         resume.setResume(resumeFile.getOriginalFilename());
         resume = resumeRepository.save(resume);
@@ -67,6 +68,7 @@ public class ResumeService implements IResumeService {
                 .map(resume -> modelMapper.map(resume, ResumeDTO.class))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<ResumeDTO> findAll() {

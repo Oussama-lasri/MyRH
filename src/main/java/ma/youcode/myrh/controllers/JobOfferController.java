@@ -2,6 +2,7 @@ package ma.youcode.myrh.controllers;
 
 
 import ma.youcode.myrh.dtos.JobOfferDTO;
+import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.services.IJobOfferService;
 import ma.youcode.myrh.services.implementations.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,11 @@ public class JobOfferController {
     @Autowired
     IJobOfferService jobOfferService;
 
-    @PostMapping
-    public ResponseEntity<JobOfferDTO> create(@ModelAttribute JobOfferDTO jobOfferToSave) {
-        JobOfferDTO jobOfferDTO = jobOfferService.save(jobOfferToSave);
+    @PostMapping("/{recruiterId}")
+    public ResponseEntity<JobOfferDTO> create(
+            @PathVariable long recruiterId,
+            @RequestBody JobOfferDTO jobOfferToSave) {
+        JobOfferDTO jobOfferDTO = jobOfferService.save(jobOfferToSave, recruiterId);
         return ResponseEntity.ok(jobOfferDTO);
     }
 
@@ -42,6 +45,15 @@ public class JobOfferController {
     public ResponseEntity<Page<JobOfferDTO>> getAllPageable(Pageable pageable) {
         Page<JobOfferDTO> jobOffers = jobOfferService.findAllPageable(pageable);
         return ResponseEntity.ok(jobOffers);
+    }
+
+    @GetMapping("/{id}/{newStatus}")
+    public ResponseEntity<String> updateStatus(
+            @PathVariable long id,
+            @PathVariable String newStatus
+    ) {
+        String resumeStatus = jobOfferService.updateStatus(id, Status.valueOf(newStatus));
+        return ResponseEntity.ok(resumeStatus);
     }
 
 }

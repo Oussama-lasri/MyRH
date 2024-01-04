@@ -12,5 +12,4 @@ public class ResumeDTO {
     private Long id;
     @NotBlank
     private MultipartFile resume;
-
 }

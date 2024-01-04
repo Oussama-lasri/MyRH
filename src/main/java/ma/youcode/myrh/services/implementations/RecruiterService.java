@@ -19,7 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,15 +61,16 @@ public class RecruiterService implements IRecruiterService {
 
         MultipartFile imageFile = recruiterDTO.getImage();
         try {
-            storageService.save(imageFile, "image");
+            storageService.save(imageFile);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
 
         recruiter.setImage(imageFile.getOriginalFilename());
-        recruiter = recruiterRepository.save(recruiter);
+        recruiterRepository.save(recruiter);
 
-        return modelMapper.map(recruiter, RecruiterDTO.class);
+//        recruiterDTO = modelMapper.map(recruiter, RecruiterDTO.class);
+        return recruiterDTO;
     }
 
     @Override
