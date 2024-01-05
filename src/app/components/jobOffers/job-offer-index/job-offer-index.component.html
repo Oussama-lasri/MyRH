@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+<div class="max-w-screen-xl px-4  mx-auto">
+
+<button
+  routerLink="/jobOffer-create"
+  type="button"
+  class="text-white bg-black focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-aftasColor focus:outline-none dark:focus:ring-blue-800"
+>
+  Add jobOffer
+</button>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+  <table
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">title</th>
+        <th scope="col" class="px-6 py-3">city</th>
+        <th scope="col" class="px-6 py-3">description</th>
+        <th scope="col" class="px-6 py-3">educationalLevel</th>
+        <th scope="col" class="px-6 py-3">profile</th>
+        <th scope="col" class="px-6 py-3">salary[MAD]</th>
+        <!-- <th scope="col" class="px-6 py-3">status</th> -->
+        <th scope="col" class="px-6 py-3">Apply</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+        *ngFor="let jobOffer of jobOffers"
+      >
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ jobOffer.title }}
+        </th>
+        <td class="px-6 py-4">
+          {{ jobOffer.city }}
+        </td>
+        <td class="px-6 py-4">
+          {{ jobOffer.description }}
+        </td>
+        <td class="px-6 py-4">
+          {{ jobOffer.educationalLevel }}
+        </td>
+        <td class="px-6 py-4">
+          {{ jobOffer.profile }}
+        </td>
+        <td class="px-6 py-4  ">
+          {{ jobOffer.salary }}
+        </td>
+        <!-- <td class="px-6 py-4">
+          {{ jobOffer.status }}
+        </td> -->
+        <td class="px-6 py-4">
+            <form
+            class="space-y-4 md:space-y-6"
+            [formGroup]="resumeForm"
+            
+          >
+            <input 
+            formControlName="resume"
+            name="resume"
+            (change)="onFileChange($event, jobOffer.id!)"
+            class="w-min mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="resuem" type="file">            
+            </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<app-footer class="bottom-0 fixed w-full"></app-footer>

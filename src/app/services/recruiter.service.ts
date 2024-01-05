@@ -5,27 +5,24 @@ import { catchError } from 'rxjs/operators';
 import { Recruiter } from '../model/Recruiter';
 import { PaginationModel } from '../model/PaginationModel';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecruiterService {
   private baseUrl = 'http://localhost:8080/api/v1/recruiters';
-
-
-  constructor(private http: HttpClient) { }
-
-  
+  constructor(private http: HttpClient) {}
   create(recruiter: Recruiter): Observable<Recruiter> {
     const formData = new FormData();
-    formData.append("email", recruiter.email!);
-    formData.append("password", recruiter.password!);
-    formData.append("login", recruiter.login!);
-    formData.append("phone", recruiter.phone!);
-    formData.append("address", recruiter.address!);
-    formData.append("image", recruiter.image!);
-    
+    formData.append('email', recruiter.email!);
+    formData.append('password', recruiter.password!);
+    formData.append('login', recruiter.login!);
+    formData.append('name', recruiter.name!);
+    formData.append('phone', recruiter.phone!);
+    formData.append('address', recruiter.address!);
+    formData.append('image', recruiter.image!);
+
     return this.http.post<Recruiter>(`${this.baseUrl}`, formData);
+    
   }
 
   getAll(): Observable<PaginationModel<Recruiter>> {
