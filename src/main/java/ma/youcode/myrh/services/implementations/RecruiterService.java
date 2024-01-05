@@ -67,7 +67,9 @@ public class RecruiterService implements IRecruiterService {
         }
 
         recruiter.setImage(imageFile.getOriginalFilename());
-        recruiterRepository.save(recruiter);
+        recruiterDTO = modelMapper.map(recruiterRepository.saveAndFlush(recruiter), RecruiterDTO.class);
+
+        recruiterDTO.setImageUrl(recruiter.getImage());
 
 //        recruiterDTO = modelMapper.map(recruiter, RecruiterDTO.class);
         return recruiterDTO;

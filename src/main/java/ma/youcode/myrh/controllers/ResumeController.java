@@ -14,6 +14,7 @@ import java.util.List;
 
 @RequestMapping("api/v1/resumes")
 @RestController
+@CrossOrigin("*")
 public class ResumeController {
 
     @Autowired

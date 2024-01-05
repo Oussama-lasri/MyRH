@@ -31,6 +31,7 @@ public class JobOfferService implements IJobOfferService {
     @Override
     public JobOfferDTO save(JobOfferDTO jobOfferDTO, long recruiterId) {
         Optional<Recruiter> recruiter = recruiterRepository.findById(recruiterId);
+
         JobOffer jobOffer = modelMapper.map(jobOfferDTO, JobOffer.class);
 
         jobOffer.setRecruiter(recruiter.get());
