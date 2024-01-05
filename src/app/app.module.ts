@@ -14,6 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JobOfferIndexComponent } from './components/jobOffers/job-offer-index/job-offer-index.component';
 import { ResumeIndexComponent } from './components/resumes/resume-index/resume-index.component';
 import { JobOfferCreateComponent } from './components/jobOffers/job-offer-create/job-offer-create.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { DashboardAgentComponent } from './components/dashboard-agent/dashboard-agent.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { JobOfferCreateComponent } from './components/jobOffers/job-offer-create
     RegisterComponent,
     JobOfferIndexComponent,
     ResumeIndexComponent,
-    JobOfferCreateComponent
+    JobOfferCreateComponent,
+    LoginComponent,
+    DashboardAgentComponent
   ],
   imports: [
     BrowserModule,
