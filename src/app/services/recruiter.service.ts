@@ -28,4 +28,14 @@ export class RecruiterService {
   getAll(): Observable<PaginationModel<Recruiter>> {
     return this.http.get<PaginationModel<Recruiter>>(`${this.baseUrl}`);
   }
+
+  validate(
+    id?: number,
+    code?: string
+  ): Observable<boolean> {
+    console.log(id, code);
+    
+    const url = `${this.baseUrl}/${id}/${code}/validation`;
+    return this.http.post<boolean>(url, {});
+  }
 }

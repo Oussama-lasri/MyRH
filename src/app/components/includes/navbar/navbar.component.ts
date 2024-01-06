@@ -5,20 +5,18 @@ import { Recruiter } from 'src/app/model/Recruiter';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
+  logout() {
+    localStorage.removeItem('recruiter');
+    this.router.navigate(['/register']);
   }
-logout() {
-  localStorage.removeItem('recruiter');
-  this.router.navigate(['/'])
-}
   recruiter?: Recruiter | null;
   ngOnInit(): void {
     const recruiterData = this.getRecruiterDataFromLocalStorage();
-    this.recruiter = recruiterData;    
+    this.recruiter = recruiterData;
   }
 
   getRecruiterDataFromLocalStorage(): Recruiter | null {

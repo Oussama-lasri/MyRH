@@ -1,5 +1,3 @@
-import { Status } from "./JobOffer copy";
-
 export interface JobOffer {
     id?: number | null;
     title: string | null;

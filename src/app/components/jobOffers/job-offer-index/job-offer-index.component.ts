@@ -32,7 +32,7 @@ export class JobOfferIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadJobOffers();
-    // this.loadAcceptedJobOffers();
+    this.loadAcceptedJobOffers();
   }
 
   resume: File | null = null; // Variable to store file

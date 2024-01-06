@@ -6,15 +6,28 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { HttpClientModule } from '@angular/common/http';
 import { JobOfferIndexComponent } from './components/jobOffers/job-offer-index/job-offer-index.component';
 import { JobOfferCreateComponent } from './components/jobOffers/job-offer-create/job-offer-create.component';
+import { RecruiterJobOffersComponent } from './components/dashboard/recruiter-job-offers/recruiter-job-offers.component';
+import { RecruiterSubmissionsComponent } from './components/dashboard/recruiter-submissions/recruiter-submissions.component';
+import { DashboardAgentComponent } from './components/dashboard-agent/dashboard-agent.component';
+import { ValidationComponent } from './components/validation/validation.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      { path: 'recruiter-job-offers', component: RecruiterJobOffersComponent },
+      { path: 'recruiter-submissions', component: RecruiterSubmissionsComponent },
+      { path: '', redirectTo: 'recruiter-job-offers', pathMatch: 'full' }, // Default child route
+    ],
+  },
+  { path: 'agent-dash', component: DashboardAgentComponent },
   { path: 'register', component: RegisterComponent },
-  {path:"jobOffer", component: JobOfferIndexComponent},
-  {path:"jobOffer-create", component: JobOfferCreateComponent},
+  { path: 'validation', component: ValidationComponent },
+  { path: 'jobOffer', component: JobOfferIndexComponent },
+  { path: 'jobOffer-create', component: JobOfferCreateComponent },
   // {path:"jobOffer-details", component: JobOfferDetailsComponent}
-
 
   { path: '', redirectTo: '/', pathMatch: 'full' },
 ];

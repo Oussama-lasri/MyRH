@@ -13,8 +13,13 @@ export class ResumeService {
   constructor(private http: HttpClient) { }
 
   create(formData: FormData, id: number): Observable<Resume> {
-    
-
     return this.http.post<Resume>(`${this.baseUrl}` + "/" + id, formData);
   }
+
+  getAllResumeByJobOffer(recruiterId?: number): Observable<Resume[]> {
+    return this.http.get<Resume[]>(`${this.baseUrl}`);
+  }
+  // getAllResumeByJobOffer(recruiterId?: number): Observable<Resume[]> {
+  //   return this.http.get<Resume[]>(`${this.baseUrl}`);
+  // }
 }

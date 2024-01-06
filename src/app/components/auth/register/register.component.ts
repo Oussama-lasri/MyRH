@@ -60,8 +60,7 @@ export class RegisterComponent implements OnInit {
       next: (createdRecruiter) =>{
         localStorage.setItem('recruiter', JSON.stringify(createdRecruiter));
         console.log(createdRecruiter);
-        
-        this.router.navigate(["/"]);
+        this.router.navigate(["/validation"]);
       },
       error: (error) => {
         console.log(error);

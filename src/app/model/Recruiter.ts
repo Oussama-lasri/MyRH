@@ -8,4 +8,5 @@ export interface Recruiter {
   phone: string | null;
   image: File | null;
   imageUrl: string | null;
+  role?: string | null;
 }

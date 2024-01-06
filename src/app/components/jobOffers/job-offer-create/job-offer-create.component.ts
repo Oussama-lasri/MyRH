@@ -47,7 +47,7 @@ export class JobOfferCreateComponent implements OnInit {
       profile: ['', Validators.required],
       educationalLevel: ['', [Validators.required]],
       salary: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      status: ['Pending', [Validators.required]],
     });
   }
 
@@ -83,7 +83,7 @@ export class JobOfferCreateComponent implements OnInit {
     
 
     this.service.createJobOffer(jobOffer, this.recruiterId!).subscribe({
-      next: (jobOffer) => this.router.navigate(['/']),
+      next: (jobOffer) => this.router.navigate(['/dashboard/recruiter-job-offers']),
       error: (error) => {
         console.log(error);
       },
