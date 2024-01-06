@@ -33,4 +33,12 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
+    @GetMapping("/{jobOfferId}")
+    public ResponseEntity<List<ResumeDTO>> getByJobOffer(
+            @PathVariable long jobOfferId
+    ) {
+        List<ResumeDTO> resumes = resumeService.findByJobOffer(jobOfferId);
+        return ResponseEntity.ok(resumes);
+    }
+
 }

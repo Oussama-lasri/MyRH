@@ -35,6 +35,14 @@ public class JobOfferController {
         List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByTitle(title);
         return ResponseEntity.ok(jobOfferDTOList);
     }
+    @PostMapping("/{jobOfferId}/{newStatus}")
+    public ResponseEntity<String> searchByTitle(
+            @PathVariable long jobOfferId,
+            @PathVariable String newStatus
+    ) {
+        String  response = jobOfferService.updateStatus(jobOfferId, Status.valueOf(newStatus));
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/status={status}")
     public ResponseEntity<List<JobOfferDTO>> searchByStatus(

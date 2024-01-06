@@ -44,7 +44,7 @@ public class RecruiterService implements IRecruiterService {
 
     @Override
     public RecruiterDTO save(RecruiterDTO recruiterDTO) {
-        Recruiter recruiter = recruiterRepository.findRecruiterByEmail(recruiterDTO.getEmail());
+        Recruiter recruiter = recruiterRepository.findByEmail(recruiterDTO.getEmail());
         if (recruiter != null) {
             System.out.println("this recruiter already exist(duplicated email)");
             return null;
@@ -67,7 +67,8 @@ public class RecruiterService implements IRecruiterService {
         }
 
         recruiter.setImage(imageFile.getOriginalFilename());
-        recruiterDTO = modelMapper.map(recruiterRepository.saveAndFlush(recruiter), RecruiterDTO.class);
+        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(recruiter);
+        recruiterDTO = modelMapper.map(savedRecruiter, RecruiterDTO.class);
 
         recruiterDTO.setImageUrl(recruiter.getImage());
 
@@ -77,7 +78,7 @@ public class RecruiterService implements IRecruiterService {
 
     @Override
     public RecruiterDTO findByEmail(String email) {
-        Recruiter recruiter = recruiterRepository.findRecruiterByEmail(email);
+        Recruiter recruiter = recruiterRepository.findByEmail(email);
         return modelMapper.map(recruiter, RecruiterDTO.class);
     }
 
@@ -91,7 +92,7 @@ public class RecruiterService implements IRecruiterService {
         emailService.sendSimpleMessage(email, "Recruiter validation code", code);
     }
 
-    public String validateAccount(long recruiterId, String code) {
+    public boolean validateAccount(long recruiterId, String code) {
         Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);
 
         if (optionalRecruiter.isPresent()) {
@@ -104,12 +105,12 @@ public class RecruiterService implements IRecruiterService {
                 recruiter.setIsValid(true);
                 recruiterRepository.save(recruiter);
 
-                return "Validation du compte réussie. Vous pouvez maintenant vous connecter.";
+                return true;
             } else {
-                return "Code de validation expiré ou incorrect. Veuillez réessayer.";
+                return false;
             }
         } else {
-            return "Recruiter non trouvé avec l'identifiant fourni.";
+            return false;
         }
     }
 

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface IRecruiterRepository extends JpaRepository<Recruiter, Long> {
-    Recruiter findRecruiterByEmail(String email);
+    Recruiter findByEmail(String email);
 }

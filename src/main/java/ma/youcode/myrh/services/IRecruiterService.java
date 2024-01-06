@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IRecruiterService {
      RecruiterDTO save(RecruiterDTO recruiterDTO);
+
      RecruiterDTO findByEmail(String email);
      Page<RecruiterDTO> findAll(Pageable pageable);
 }

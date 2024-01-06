@@ -4,17 +4,19 @@ package ma.youcode.myrh.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 //@EqualsAndHashCode(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "recruiters")
 @DiscriminatorValue("RECRUITER")
-//@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Recruiter extends User{
 
     private String login;

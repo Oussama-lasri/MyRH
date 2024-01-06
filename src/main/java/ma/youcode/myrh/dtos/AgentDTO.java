@@ -1,13 +1,13 @@
 package ma.youcode.myrh.dtos;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 public class AgentDTO extends UserDTO{
-    @NotBlank(message = "name is required")
-    private String name;
-
 }

@@ -25,13 +25,15 @@ public class RecruiterController {
     public ResponseEntity<RecruiterDTO> create(@ModelAttribute RecruiterDTO recruiterToSave){
         Logger.getLogger(getClass().getName()).log(Level.SEVERE, recruiterToSave.toString());
         RecruiterDTO recruiterDTO = recruiterService.save(recruiterToSave);
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, recruiterService.findByEmail(recruiterDTO.getEmail()).toString());
+
         return ResponseEntity.ok(recruiterDTO);
     }
 
     @PostMapping("/{id}/{code}/validation")
-    public ResponseEntity<String> create(@PathVariable long id, @PathVariable String code) {
-        String recruiterDTO = recruiterService.validateAccount(id, code);
-        return ResponseEntity.ok(recruiterDTO);
+    public ResponseEntity<Boolean> create(@PathVariable long id, @PathVariable String code) {
+        Boolean response = recruiterService.validateAccount(id, code);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/resend-validation-code")
@@ -45,5 +47,12 @@ public class RecruiterController {
     public ResponseEntity<Page<RecruiterDTO>> getAll(Pageable pageable){
         Page<RecruiterDTO> recruiters = recruiterService.findAll(pageable);
         return ResponseEntity.ok(recruiters);
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<RecruiterDTO> getByEmail(
+            @PathVariable String email){
+        RecruiterDTO recruiter = recruiterService.findByEmail(email);
+        return ResponseEntity.ok(recruiter);
     }
 }
