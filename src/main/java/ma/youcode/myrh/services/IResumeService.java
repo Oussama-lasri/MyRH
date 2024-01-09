@@ -12,6 +12,6 @@ import java.util.List;
 public interface IResumeService {
      ResumeDTO save(ResumeDTO jobOfferDTO, long jobfferId);
      List<ResumeDTO> findByJobOffer(long  id);
-
      List<ResumeDTO> findAll();
+     List<ResumeDTO> findAllByRecruiterId(long id);
 }

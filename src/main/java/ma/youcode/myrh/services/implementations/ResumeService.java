@@ -71,8 +71,8 @@ public class ResumeService implements IResumeService {
     }
     @Override
     public List<ResumeDTO> findAll() {
-//        List<Resume> resumes = resumeRepository.findAll();
-        List<Resume> resumes = resumeRepository.findAllByJobOffer_Recruiter_Id(1L);
+        List<Resume> resumes = resumeRepository.findAll();
+//        List<Resume> resumes = resumeRepository.findAllByJobOffer_Recruiter_Id(1L);
         return resumes.stream()
                 .map(resume ->{
 
@@ -81,6 +81,19 @@ public class ResumeService implements IResumeService {
                     System.out.println(resume.getResume());
                         return resumeDTO;
                         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResumeDTO> findAllByRecruiterId(long id) {
+        List<Resume> resumes = resumeRepository.findAllByJobOffer_Recruiter_Id(id);
+        return resumes.stream()
+                .map(resume -> {
+
+                    ResumeDTO resumeDTO = modelMapper.map(resume, ResumeDTO.class);
+                    resumeDTO.setResumeUrl(resume.getResume());
+                    System.out.println(resume.getResume());
+                    return resumeDTO;
+                }).collect(Collectors.toList());
     }
 
 }
