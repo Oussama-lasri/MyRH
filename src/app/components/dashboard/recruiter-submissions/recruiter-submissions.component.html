@@ -23,7 +23,7 @@
               {{ submission.id }}
             </th>
             <td class="px-6 py-4">
-                <a [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" target="_blank">submission link</a>
+                <a [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" target="_blank">{{submission.resumeUrl}}</a>
 
               <!-- <a [href]="'localhost:8080/uploads/static' + {{ submission.resumeUrl }}">submission link</a> -->
             </td>

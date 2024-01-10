@@ -31,7 +31,7 @@ export class JobOfferIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadJobOffers();
+    // this.loadJobOffers();
     this.loadAcceptedJobOffers();
   }
 
