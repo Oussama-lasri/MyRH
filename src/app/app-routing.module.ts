@@ -10,8 +10,11 @@ import { RecruiterJobOffersComponent } from './components/dashboard/recruiter-jo
 import { RecruiterSubmissionsComponent } from './components/dashboard/recruiter-submissions/recruiter-submissions.component';
 import { DashboardAgentComponent } from './components/dashboard-agent/dashboard-agent.component';
 import { ValidationComponent } from './components/validation/validation.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
+
+  { path: 'chat/:userId', component: ChatComponent },
   { path: '', component: HomeComponent },
   {
     path: 'dashboard',

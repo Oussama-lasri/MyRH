@@ -20,6 +20,7 @@ import { DashNavbarComponent } from './components/includes/dash-navbar/dash-navb
 import { RecruiterJobOffersComponent } from './components/dashboard/recruiter-job-offers/recruiter-job-offers.component';
 import { RecruiterSubmissionsComponent } from './components/dashboard/recruiter-submissions/recruiter-submissions.component';
 import { ValidationComponent } from './components/validation/validation.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ValidationComponent } from './components/validation/validation.componen
     DashNavbarComponent,
     RecruiterJobOffersComponent,
     RecruiterSubmissionsComponent,
-    ValidationComponent
+    ValidationComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
