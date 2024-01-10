@@ -12,7 +12,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat-socket").withSockJS();
+        registry.addEndpoint("/chat-socket")
+                .setAllowedOrigins("http://localhost:4200")
+                .withSockJS();
     }
 
     @Override
