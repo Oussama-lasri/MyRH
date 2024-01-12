@@ -35,8 +35,8 @@ public class RecruiterService implements IRecruiterService {
     IRecruiterRepository recruiterRepository;
     @Autowired
     ModelMapper modelMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EmailService emailService;
@@ -57,7 +57,7 @@ public class RecruiterService implements IRecruiterService {
 
         sendValidationCodeByEmail(recruiter.getEmail(), code);
 
-        recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
+//        recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
 
         MultipartFile imageFile = recruiterDTO.getImage();
         try {

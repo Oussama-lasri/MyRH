@@ -1,10 +1,7 @@
 package ma.youcode.myrh.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
+@Inheritance
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User implements UserDetails {
     @Id
