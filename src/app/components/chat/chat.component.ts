@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatMessage } from 'src/app/model/chat-message';
+import { ChatMessage } from 'src/app/models/chat-message';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -21,8 +21,9 @@ export class ChatComponent implements OnInit{
       user: '1'
     }as ChatMessage
 
-    const res = this.chatService.sendMessage("ABC", chatMessage)
-    console.log(res);
+    this.chatService.sendMessage("Ayoub", chatMessage);
+    // console.log(chatMessage);
+    
     
   }
 

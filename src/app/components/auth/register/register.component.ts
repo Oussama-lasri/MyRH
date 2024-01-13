@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Recruiter } from 'src/app/model/Recruiter';
+import { Recruiter } from 'src/app/models/Recruiter';
 import { RecruiterService } from 'src/app/services/recruiter.service';
 
 @Component({

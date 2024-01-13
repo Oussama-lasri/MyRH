@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Recruiter } from 'src/app/model/Recruiter';
+import { Recruiter } from 'src/app/models/Recruiter';
 import { AuthDataService } from 'src/app/services/auth-data.service';
 import { RecruiterService } from 'src/app/services/recruiter.service';
 import { ValidationService } from 'src/app/services/validation.service';

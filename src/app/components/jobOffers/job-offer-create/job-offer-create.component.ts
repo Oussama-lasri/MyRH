@@ -6,8 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JobOffer } from 'src/app/model/JobOffer';
-import { Recruiter } from 'src/app/model/Recruiter';
+import { JobOffer } from 'src/app/models/JobOffer';
+import { Recruiter } from 'src/app/models/Recruiter';
 import { JobOfferService } from 'src/app/services/job-offer.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Recruiter } from 'src/app/model/Recruiter';
+import { Recruiter } from 'src/app/models/Recruiter';
 
 @Component({
   selector: 'app-home',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Recruiter } from 'src/app/model/Recruiter';
+import { Recruiter } from 'src/app/models/Recruiter';
 
 @Component({
   selector: 'app-navbar',

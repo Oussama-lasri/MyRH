@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Recruiter } from '../model/Recruiter';
+import { Recruiter } from '../models/Recruiter';
 
 @Injectable({
   providedIn: 'root'

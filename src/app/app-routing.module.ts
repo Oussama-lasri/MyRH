@@ -11,10 +11,14 @@ import { RecruiterSubmissionsComponent } from './components/dashboard/recruiter-
 import { DashboardAgentComponent } from './components/dashboard-agent/dashboard-agent.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 const routes: Routes = [
 
   { path: 'chat/:userId', component: ChatComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent },
   {
     path: 'dashboard',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJs from 'sockjs-client';
-import { ChatMessage } from '../model/chat-message';
+import { ChatMessage } from '../models/chat-message';
 
 @Injectable({
   providedIn: 'root',

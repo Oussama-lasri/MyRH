@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JobOffer } from 'src/app/model/JobOffer';
-import { Resume } from 'src/app/model/Resume';
+import { JobOffer } from 'src/app/models/JobOffer';
+import { Resume } from 'src/app/models/Resume';
 import { JobOfferService } from 'src/app/services/job-offer.service';
 import { ResumeService } from 'src/app/services/resume.service';
 

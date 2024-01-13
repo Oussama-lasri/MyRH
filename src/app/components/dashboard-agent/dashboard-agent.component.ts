@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JobOffer } from 'src/app/model/JobOffer';
+import { JobOffer } from 'src/app/models/JobOffer';
 import { JobOfferService } from 'src/app/services/job-offer.service';
 
 

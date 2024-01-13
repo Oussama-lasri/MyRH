@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Recruiter } from 'src/app/model/Recruiter';
-import { Resume } from 'src/app/model/Resume';
+import { Recruiter } from 'src/app/models/Recruiter';
+import { Resume } from 'src/app/models/Resume';
 import { AuthDataService } from 'src/app/services/auth-data.service';
 import { ResumeService } from 'src/app/services/resume.service';
 
