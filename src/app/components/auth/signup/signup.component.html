@@ -40,6 +40,15 @@
             >
               Name is required.
             </div>
+            <div
+            *ngIf="
+              signUpForm.get('name')?.hasError('pattern') &&
+              signUpForm.get('name')?.touched
+            "
+            class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
+          >
+            Name cannot be blank.
+          </div>
           </div>
 
           <!-- Email -->
@@ -67,8 +76,17 @@
             >
               Eamil is required.
             </div>
+            <div
+              *ngIf="
+                signUpForm.get('email')?.hasError('pattern') &&
+                signUpForm.get('email')?.touched
+              "
+              class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
+            >
+              Please enter a valid email address.
+            </div>
           </div>
-          
+
           <!-- Password -->
           <div>
             <label
@@ -94,6 +112,15 @@
               class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
             >
               Password is required.
+            </div>
+            <div
+              *ngIf="
+                signUpForm.get('password')?.hasError('pattern') &&
+                signUpForm.get('password')?.touched
+              "
+              class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
+            >
+              Password cannot be blank.
             </div>
           </div>
 

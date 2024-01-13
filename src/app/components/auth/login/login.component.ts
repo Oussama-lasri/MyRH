@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Recruiter } from 'src/app/models/Recruiter';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { RecruiterService } from 'src/app/services/recruiter.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-login',
@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit{
     private router: Router
   ) {
     this.signInForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
+      password: ['', [Validators.required, Validators.pattern(/\S+/)]], 
     });
   }
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit{
     this.errorMessages = [];
 
     const signInFormValue = { ...this.signInForm.value };
-    
+
     this.service.signIn(signInFormValue).subscribe({
       next: (jwtToken) => {
         localStorage.setItem('token', JSON.stringify(jwtToken));
@@ -40,6 +40,13 @@ export class LoginComponent implements OnInit{
         this.router.navigate(['/']);
       },
       error: (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: error
+        });
+        console.log(error);
         console.log(error);
       },
     });

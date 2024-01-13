@@ -43,8 +43,17 @@
             >
               Eamil is required.
             </div>
+            <div
+              *ngIf="
+                signInForm.get('email')?.hasError('pattern') &&
+                signInForm.get('email')?.touched
+              "
+              class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
+            >
+              Please enter a valid email address.
+            </div>
           </div>
-          
+
           <!-- Password -->
           <div>
             <label
@@ -70,6 +79,15 @@
               class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
             >
               Password is required.
+            </div>
+            <div
+              *ngIf="
+                signInForm.get('password')?.hasError('pattern') &&
+                signInForm.get('password')?.touched
+              "
+              class="text-gray-100 p-1 bg-red-500 text-xs mt-1 rounded"
+            >
+              Password cannot be blank.
             </div>
           </div>
 

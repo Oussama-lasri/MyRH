@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,9 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent {
   title = 'myrh.ma';
+  ngOnInit(){
+    console.log('This is init method');
+  }
+  
+
 }

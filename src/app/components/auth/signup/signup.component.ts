@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Recruiter } from 'src/app/models/Recruiter';
-import { SignUpRequest } from 'src/app/models/SignUpRequest';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { RecruiterService } from 'src/app/services/recruiter.service';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -22,9 +20,9 @@ export class SignupComponent {
     private router: Router
   ) {
     this.signUpForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required]],
-      password: ['', Validators.required],
+      name: ['', [Validators.required, Validators.pattern(/\S+/)]],
+      email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
+      password: ['', [Validators.required, Validators.pattern(/\S+/)]], 
       role: ['USER'],
     });
   }
@@ -41,6 +39,12 @@ export class SignupComponent {
         this.router.navigate(['/']);
       },
       error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: error,
+        });
         console.log(error);
       },
     });
