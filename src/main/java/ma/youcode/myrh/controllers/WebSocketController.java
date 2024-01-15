@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,32 +21,31 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class WebSocketController {
-
     private final UserRepository repository;
 
     @MessageMapping("/user.addUser")
     @SendTo("/user/public")
-    public User addUser(
-            @Payload ClientDTO clientDTO
+    public void addUser(
+            @RequestBody ClientDTO clientDTO
     ) {
         User user = repository.findById(clientDTO.getClientId()).get();
         user.setStatus(UserStatus.ONLINE);
-        System.out.println("user aaa");
         repository.save(user);
-        return user;
+//        return user;
     }
 
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
-    public User disconnectUser(
-            @Payload ClientDTO clientDTO
+    public void disconnectUser(
+                @RequestBody ClientDTO clientDTO
     ) {
+        System.out.println(clientDTO);
         var storedUser = repository.findById(clientDTO.getClientId()).orElse(null);
         if (storedUser != null) {
             storedUser.setStatus(UserStatus.OFFLINE);
             repository.save(storedUser);
         }
-        return storedUser;
+//        return storedUser;
     }
 
     @GetMapping("/users")

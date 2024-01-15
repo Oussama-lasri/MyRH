@@ -1,12 +1,12 @@
 package ma.youcode.myrh.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import ma.youcode.myrh.models.UserStatus;
 
+import java.io.Serializable;
+
 @Data
-@AllArgsConstructor
-public class ClientDTO {
+@RequiredArgsConstructor
+public class ClientDTO implements Serializable{
     private int clientId;
-    private UserStatus status;
 }

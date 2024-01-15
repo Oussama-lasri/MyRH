@@ -27,18 +27,18 @@ public class User implements UserDetails {
     @Column(unique = true)
     protected String email;
 
+    @Enumerated(EnumType.STRING)
+    protected  UserStatus status;
+
     protected String password;
 //    @Column(name = "role", insertable = false, updatable = false)
     protected String role;
 
-    protected  UserStatus status;
-
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Resume> resumes;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(this.getClass().getSimpleName()));
+        return Collections.singleton(new SimpleGrantedAuthority(this.getClass().getSimpleName().toUpperCase()));
     }
 
     @Override
