@@ -1,4 +1,3 @@
-export interface clientDTO {
+export interface ClientDTO {
   clientId?: number | null;
-  status?: string | null;
 }

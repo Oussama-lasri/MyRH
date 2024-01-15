@@ -15,9 +15,9 @@ export class NavbarComponent implements OnInit {
     
     constructor(private router: Router, private authService: AuthenticationService, private jwtService: JwtService, private webSocketService: WebSocketService) {}
   logout() {
+    this.webSocketService.disconnect();
     this.jwtService.clearAuthToken();
     localStorage.removeItem('recruiter');
-    this.webSocketService.disconnect();
     this.router.navigate(['/login']);
   }
   authUser?: AuthUser | null;

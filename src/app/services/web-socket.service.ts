@@ -1,81 +1,91 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import * as SockJS from 'sockjs-client';
-import { clientDTO } from '../models/ClientDTO';
 import { JwtService } from './jwt.service';
+import { AppComponent } from '../app.component';
+import { AuthUser } from '../models/AuthUser';
+import { AuthenticationService } from './authentication.service';
+import { ClientDTO } from '../models/ClientDTO';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebSocketService {
   private stompClient: any;
 
-  constructor(private jwtService: JwtService, private http: HttpClient) { }
+  constructor(
+    private jwtService: JwtService,
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {}
 
-  connect(): void {
-    const socket = new SockJS('http://localhost:8080/ws');
-    this.stompClient = Stomp.over(socket);
-
-    const requestOptions = {
-      headers: this.loadHeaders()
-    };
-    this.stompClient.connect(requestOptions, () => {
-      console.log('WebSocket Connected');
+  async connect(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (this.stompClient && this.stompClient.connected) {
+        console.log('WebSocket connection is already open.');
+        resolve();
+      } else {
+        const socket = new SockJS('http://localhost:8080/ws');
+        this.stompClient = Stomp.over(socket);
+  
+        const requestOptions = {
+          headers: this.loadHeaders(),
+        };
+  
+        this.stompClient.connect(requestOptions, () => {
+          console.log('WebSocket Connected');
+          resolve();
+        });
+      }
     });
-
   }
 
+  addUser(clientDTO: ClientDTO): Observable<any> {
+
+    return new Observable((observer) => {
+
+      if (this.stompClient && this.stompClient.connected) {
+        const requestOptions = {
+          headers: this.loadHeaders(),
+        };
+        this.stompClient.send('/app/user.addUser', requestOptions, JSON.stringify(clientDTO));
+        observer.next();
+        observer.complete();
+      } else {
+        console.error('WebSocket connection is not open.');
+      }
+    });
+  }
+  
   disconnect(): void {
     if (this.stompClient) {
       const requestOptions = {
-        headers: this.loadHeaders()
+        headers: this.loadHeaders(),
       };
-      this.stompClient.send('/app/user.disconnectUser', requestOptions, '')
+      
+      const authUser = <AuthUser>this.authService.getAuthUser();
+      const clientDTO: ClientDTO = {
+        clientId: authUser.id,
+      };
+      this.stompClient.send('/app/user.disconnectUser', requestOptions, JSON.stringify(clientDTO));
       this.stompClient.disconnect();
       console.log('WebSocket Disconnected');
+
+      
     }
   }
 
-  addUser(clientDTO: clientDTO): Observable<any> {
-    const requestOptions = {
-      headers: this.loadHeaders()
-    };
 
-    // return this.stompClient.send("/app/user.addUser",
-    //   { requestOptions },
-    //   JSON.stringify({ userId: 1, status: 'ONLINE' }))
-
-    console.log(clientDTO);
-    
-    return new Observable(observer => {
-        this.stompClient.send('/app/user.addUser', this.loadHeaders(), clientDTO);
-      });
-  }
-  // addUser(clientDTO: clientDTO): Observable<any> {
-  //   const headers = this.loadHeaders(); // Assuming this function returns the necessary headers
-
-  //   return this.stompClient.send('/app/user.addUser', headers, JSON.stringify(clientDTO));
-  // }
-
-
-  disconnectUser(clientDTO: any): Observable<any> {
-    return new Observable(observer => {
-      this.stompClient.send('/app/user.disconnectUser', {}, JSON.stringify(clientDTO));
-      // You can handle the response here if needed
-    });
-  }
 
   getConnectedUsers(): Observable<any[]> {
-    // return new Observable(observer => {
     const requestOptions = {
-      headers: this.loadHeaders()
+      headers: this.loadHeaders(),
     };
 
-    return this.http.get<any[]>("http://localhost:8080/users", requestOptions);
-  };
-
+    return this.http.get<any[]>('http://localhost:8080/users', requestOptions);
+  }
 
   loadHeaders(): HttpHeaders {
     let token: string | null = '';

@@ -29,18 +29,10 @@ export class AuthenticationService {
   }
   
   signIn(signInRequest: SigninRequest): Observable<JwtAuthenticationResponse> {
-    let token: string | null = '';
-    if (this.jwtService.getAuthToken() != null) {
-      token = this.jwtService.getAuthToken();
-    }
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
+
     return this.http.post<JwtAuthenticationResponse>(
       `${this.signInUrl}`,
-      signInRequest,
-      { headers }
+      signInRequest
     );
   }
 

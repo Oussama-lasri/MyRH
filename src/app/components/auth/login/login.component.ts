@@ -7,7 +7,7 @@ import { JwtService } from 'src/app/services/jwt.service';
 import Swal from 'sweetalert2';
 import { jwtDecode } from 'jwt-decode';
 import { WebSocketService } from 'src/app/services/web-socket.service';
-import { clientDTO } from 'src/app/models/ClientDTO';
+import { ClientDTO } from 'src/app/models/ClientDTO';
 import { AuthUser } from 'src/app/models/AuthUser';
 
 @Component({
@@ -16,9 +16,7 @@ import { AuthUser } from 'src/app/models/AuthUser';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   signInForm: FormGroup;
   errorMessages: string[] = [];
@@ -35,7 +33,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  signIn() {
+  async signIn() {
     this.errorMessages = [];
 
     const signInFormValue = { ...this.signInForm.value };
@@ -47,41 +45,36 @@ export class LoginComponent implements OnInit {
 
         const tokenValue = this.jwtService.getAuthToken!();
 
-        this.webSocketService.connect();
+        this.webSocketService.connect().then(() => {
+          const authUser = <AuthUser>this.authService.getAuthUser();
+          const clientDTO: ClientDTO = {
+            clientId: authUser.id,
+          };
+          this.webSocketService.addUser(clientDTO).subscribe(
+            () => {
+              // Handle success, if needed
+              console.log('User added successfully');
+            },
+            (error) => {
+              // Handle errors, if needed
+              console.error('Error adding user:', error);
+            }
+          );
+          if (tokenValue) {
+            const userRole = this.authService.getAuthUser()?.role;
 
-        const authUser = <AuthUser>this.authService.getAuthUser();
-        const clientData: clientDTO = {
-          clientId: authUser.id,
-          // status: '',
-        };
-        this.webSocketService.addUser(clientData);
-
-        // this.webSocketService.getConnectedUsers().subscribe({
-        //   next: (response) => { 
-        //     console.log(response);
-
-        //   }, error: (error) => {
-        //     console.log(error);
-
-        //   }
-        // }
-        // );
-        // alert('connected users');
-
-        if (tokenValue) {
-          const userRole = this.authService.getAuthUser()?.role;
-
-          switch (userRole) {
-            case 'AGENT':
-              this.router.navigate(['/agent-dash']);
-              break;
-            case 'RECRUITER':
-              this.router.navigate(['/dashboard']);
-              break;
-            default:
-              this.router.navigate(['/']);
+            switch (userRole) {
+              case 'AGENT':
+                this.router.navigate(['/agent-dash']);
+                break;
+              case 'RECRUITER':
+                this.router.navigate(['/dashboard']);
+                break;
+              default:
+                this.router.navigate(['/']);
+            }
           }
-        }
+        });
       },
       error: (error) => {
         console.log('ERROR: ', error);
