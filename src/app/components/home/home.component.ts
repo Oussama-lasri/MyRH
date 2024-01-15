@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthUser } from 'src/app/models/AuthUser';
 import { Recruiter } from 'src/app/models/Recruiter';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +9,10 @@ import { Recruiter } from 'src/app/models/Recruiter';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  recruiter?: Recruiter | null;
+  authUser?: AuthUser | null;
+  constructor(private authService: AuthenticationService){}
   ngOnInit(): void {
-    const recruiterDataString = localStorage.getItem('recruiter');
-    if (recruiterDataString) {
-      this.recruiter =  JSON.parse(recruiterDataString);
-    }
-
-    console.log(this.recruiter?.role);
+    this.authUser = <AuthUser> this.authService.getAuthUser();
     
   }
-
 }

@@ -3,51 +3,95 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Recruiter } from 'src/app/models/Recruiter';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { JwtService } from 'src/app/services/jwt.service';
 import Swal from 'sweetalert2';
-
+import { jwtDecode } from 'jwt-decode';
+import { WebSocketService } from 'src/app/services/web-socket.service';
+import { clientDTO } from 'src/app/models/ClientDTO';
+import { AuthUser } from 'src/app/models/AuthUser';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit{
-  ngOnInit(): void {}
+export class LoginComponent implements OnInit {
+  ngOnInit(): void {
+
+  }
 
   signInForm: FormGroup;
   errorMessages: string[] = [];
   constructor(
     private formBuilder: FormBuilder,
-    private service: AuthenticationService,
-    private router: Router
+    private authService: AuthenticationService,
+    private jwtService: JwtService,
+    private router: Router,
+    private webSocketService: WebSocketService
   ) {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
-      password: ['', [Validators.required, Validators.pattern(/\S+/)]], 
+      password: ['', [Validators.required, Validators.pattern(/\S+/)]],
     });
   }
-
 
   signIn() {
     this.errorMessages = [];
 
     const signInFormValue = { ...this.signInForm.value };
 
-    this.service.signIn(signInFormValue).subscribe({
+    this.authService.signIn(signInFormValue).subscribe({
       next: (jwtToken) => {
         localStorage.setItem('token', JSON.stringify(jwtToken));
-        console.log(jwtToken);
-        this.router.navigate(['/']);
+        this.jwtService.loadTokenFromStorage();
+
+        const tokenValue = this.jwtService.getAuthToken!();
+
+        this.webSocketService.connect();
+
+        const authUser = <AuthUser>this.authService.getAuthUser();
+        const clientData: clientDTO = {
+          clientId: authUser.id,
+          // status: '',
+        };
+        this.webSocketService.addUser(clientData);
+
+        // this.webSocketService.getConnectedUsers().subscribe({
+        //   next: (response) => { 
+        //     console.log(response);
+
+        //   }, error: (error) => {
+        //     console.log(error);
+
+        //   }
+        // }
+        // );
+        // alert('connected users');
+
+        if (tokenValue) {
+          const userRole = this.authService.getAuthUser()?.role;
+
+          switch (userRole) {
+            case 'AGENT':
+              this.router.navigate(['/agent-dash']);
+              break;
+            case 'RECRUITER':
+              this.router.navigate(['/dashboard']);
+              break;
+            default:
+              this.router.navigate(['/']);
+          }
+        }
       },
       error: (error) => {
+        console.log('ERROR: ', error);
+
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: error
+          icon: 'error',
+          title: 'Oops...',
+          text: error.error,
+          footer: error,
         });
-        console.log(error);
-        console.log(error);
       },
     });
   }

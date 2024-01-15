@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { RegisterComponent } from './components/auth/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JobOfferIndexComponent } from './components/jobOffers/job-offer-index/job-offer-index.component';
 import { JobOfferCreateComponent } from './components/jobOffers/job-offer-create/job-offer-create.component';
@@ -13,6 +12,7 @@ import { ValidationComponent } from './components/validation/validation.componen
 import { ChatComponent } from './components/chat/chat.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
+import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
 
 const routes: Routes = [
 
@@ -30,7 +30,7 @@ const routes: Routes = [
     ],
   },
   { path: 'agent-dash', component: DashboardAgentComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RecruiterCreateComponent },
   { path: 'validation', component: ValidationComponent },
   { path: 'jobOffer', component: JobOfferIndexComponent },
   { path: 'jobOffer-create', component: JobOfferCreateComponent },

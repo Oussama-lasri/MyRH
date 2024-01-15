@@ -3,35 +3,36 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Recruiter } from 'src/app/models/Recruiter';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { JwtService } from 'src/app/services/jwt.service';
 import { RecruiterService } from 'src/app/services/recruiter.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-recruiter-create',
+  templateUrl: './recruiter-create.component.html',
+  styleUrls: ['./recruiter-create.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RecruiterCreateComponent implements OnInit {
   ngOnInit(): void {
   }
 
   recruiterForm: FormGroup
-  errorMessages:string[] = []
+  errorMessages: string[] = []
   constructor(
-    private formBuilder:FormBuilder,
-    private service:RecruiterService,
-    private router:Router,
+    private formBuilder: FormBuilder,
+    private service: RecruiterService,
+    private router: Router,
+    private authService: AuthenticationService,
+    private jwtService: JwtService
   ) {
     this.recruiterForm = this.formBuilder.group({
-      email: ['', [Validators.required,]],
-      password: ['', Validators.required],
       login: ['', Validators.required],
-      name: ['', Validators.required],
       address: ['', [Validators.required,]],
       phone: ['', [Validators.required,]],
-      image: [null, [Validators.required,]]
+      image: [null, [Validators.required,]],
+      role: ['RECRUITER']
     });
   }
-
 
   onFileChange(event: any) {
     const fileInput = event.target;
@@ -43,23 +44,24 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-
   onsubmit() {
     this.errorMessages = []
     const recruiter: Recruiter = {
-      email: this.recruiterForm.get("email")?.value,
-      password: this.recruiterForm.get("password")?.value,
+      id: this.authService.getAuthUser()?.id,
       login: this.recruiterForm.get("login")?.value,
-      name: this.recruiterForm.get("name")?.value,
       address: this.recruiterForm.get("address")?.value,
       phone: this.recruiterForm.get("phone")?.value,
       image: this.recruiterForm.get("image")?.value,
+      role: this.recruiterForm.get("role")?.value,
       imageUrl: '',
     }
+
     this.service.create(recruiter).subscribe({
-      next: (createdRecruiter) =>{
-        localStorage.setItem('recruiter', JSON.stringify(createdRecruiter));
-        console.log(createdRecruiter);
+      next: (jwtToken) => {
+        localStorage.setItem('token', JSON.stringify(jwtToken));
+        this.jwtService.loadTokenFromStorage();
+
+        console.log(this.authService.getAuthUser());
         this.router.navigate(["/validation"]);
       },
       error: (error) => {

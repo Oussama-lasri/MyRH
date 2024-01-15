@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'dash-navbar',

@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { JobOffer } from 'src/app/models/JobOffer';
 import { Recruiter } from 'src/app/models/Recruiter';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { JobOfferService } from 'src/app/services/job-offer.service';
 
 @Component({
@@ -17,28 +18,14 @@ import { JobOfferService } from 'src/app/services/job-offer.service';
 })
 export class JobOfferCreateComponent implements OnInit {
   private recruiterId?: number | null;
-  ngOnInit(): void {
-    const recruiterData = this.getRecruiterDataFromLocalStorage();
-    this.recruiterId = recruiterData?.id;
-    console.log(this.recruiterId);
-    console.log(1);
-    
-  }
-
-  getRecruiterDataFromLocalStorage(): Recruiter | null {
-    const recruiterDataString = localStorage.getItem('recruiter');
-    if (recruiterDataString) {
-      return JSON.parse(recruiterDataString);
-    }
-    return null;
-  }
-
   jobOfferForm: FormGroup;
   errorMessages: string[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private service: JobOfferService,
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
   ) {
     this.jobOfferForm = this.formBuilder.group({
       title: ['', [Validators.required]],
@@ -49,6 +36,13 @@ export class JobOfferCreateComponent implements OnInit {
       salary: ['', [Validators.required]],
       status: ['Pending', [Validators.required]],
     });
+  }
+
+  ngOnInit(): void {
+    this.recruiterId = this.authService.getAuthUser()?.id;
+    console.log(this.recruiterId);
+    console.log(1);
+
   }
 
   onFileChange(event: any) {
@@ -75,12 +69,6 @@ export class JobOfferCreateComponent implements OnInit {
       salary: this.jobOfferForm.get('salary')?.value,
       status: this.jobOfferForm.get('status')?.value,
     };
-    console.log(jobOffer);
-
-    const recruiterData = this.getRecruiterDataFromLocalStorage();
-    this.recruiterId = recruiterData?.id;
-    console.log(this.recruiterId);
-    
 
     this.service.createJobOffer(jobOffer, this.recruiterId!).subscribe({
       next: (jobOffer) => this.router.navigate(['/dashboard/recruiter-job-offers']),

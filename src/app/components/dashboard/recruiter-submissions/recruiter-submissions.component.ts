@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Recruiter } from 'src/app/models/Recruiter';
 import { Resume } from 'src/app/models/Resume';
-import { AuthDataService } from 'src/app/services/auth-data.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ResumeService } from 'src/app/services/resume.service';
 
 @Component({
@@ -18,11 +18,12 @@ export class RecruiterSubmissionsComponent implements OnInit{
   constructor(
     private router: Router,
     private resumeService: ResumeService,
-    private authData: AuthDataService
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    this.recruiter = this.authData.getRecruiterDataFromLocalStorage();
+    // this.recruiter = this.authService.getAuthUser();
+    this.recruiter = <Recruiter> this.authService.getAuthUser();
     console.log(this.recruiter);
     
     this.loadJobOffers();

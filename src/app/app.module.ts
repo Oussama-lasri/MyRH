@@ -3,16 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RecruitersComponent } from './components/recruiters/recruiters.component';
 import { AgentsComponent } from './components/agents/agents.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/includes/footer/footer.component';
 import { NavbarComponent } from './components/includes/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { RegisterComponent } from './components/auth/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JobOfferIndexComponent } from './components/jobOffers/job-offer-index/job-offer-index.component';
-import { ResumeIndexComponent } from './components/resumes/resume-index/resume-index.component';
 import { JobOfferCreateComponent } from './components/jobOffers/job-offer-create/job-offer-create.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { DashboardAgentComponent } from './components/dashboard-agent/dashboard-agent.component';
@@ -23,19 +20,17 @@ import { ValidationComponent } from './components/validation/validation.componen
 import { ChatComponent } from './components/chat/chat.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CondidateIndexComponent } from './components/condidate/condidate-index/condidate-index.component';
+import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RecruitersComponent,
     AgentsComponent,
     HomeComponent,
     FooterComponent,
     NavbarComponent,
     DashboardComponent,
-    RegisterComponent,
     JobOfferIndexComponent,
-    ResumeIndexComponent,
     JobOfferCreateComponent,
     LoginComponent,
     DashboardAgentComponent,
@@ -45,7 +40,8 @@ import { CondidateIndexComponent } from './components/condidate/condidate-index/
     ValidationComponent,
     ChatComponent,
     SignupComponent,
-    CondidateIndexComponent
+    CondidateIndexComponent,
+    RecruiterCreateComponent
   ],
   imports: [
     BrowserModule,

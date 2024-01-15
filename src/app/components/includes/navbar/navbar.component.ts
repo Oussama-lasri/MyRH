@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthUser } from 'src/app/models/AuthUser';
 import { Recruiter } from 'src/app/models/Recruiter';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { JwtService } from 'src/app/services/jwt.service';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,22 +12,16 @@ import { Recruiter } from 'src/app/models/Recruiter';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private router: Router) {}
+    
+    constructor(private router: Router, private authService: AuthenticationService, private jwtService: JwtService, private webSocketService: WebSocketService) {}
   logout() {
+    this.jwtService.clearAuthToken();
     localStorage.removeItem('recruiter');
-    this.router.navigate(['/register']);
+    this.webSocketService.disconnect();
+    this.router.navigate(['/login']);
   }
-  recruiter?: Recruiter | null;
+  authUser?: AuthUser | null;
   ngOnInit(): void {
-    const recruiterData = this.getRecruiterDataFromLocalStorage();
-    this.recruiter = recruiterData;
-  }
-
-  getRecruiterDataFromLocalStorage(): Recruiter | null {
-    const recruiterDataString = localStorage.getItem('recruiter');
-    if (recruiterDataString) {
-      return JSON.parse(recruiterDataString);
-    }
-    return null;
+    this.authUser = <AuthUser> this.authService.getAuthUser();
   }
 }
