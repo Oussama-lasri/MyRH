@@ -16,4 +16,7 @@ public class Resume {
     @ManyToOne
     @JoinColumn(name = "job_offer_id")
     private JobOffer jobOffer;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

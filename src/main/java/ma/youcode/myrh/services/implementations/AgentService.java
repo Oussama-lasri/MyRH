@@ -26,8 +26,8 @@ public class AgentService implements IAgentService {
     IAgentRepository agentRepository;
     @Autowired
     ModelMapper modelMapper;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public AgentDTO save(AgentDTO agentDTO) {
         Agent agent = agentRepository.findByEmail(agentDTO.getEmail());
@@ -37,7 +37,7 @@ public class AgentService implements IAgentService {
         }
 
         agent = modelMapper.map(agentDTO, Agent.class);
-//        agent.setPassword(passwordEncoder.encode(agent.getPassword()));
+        agent.setPassword(passwordEncoder.encode(agent.getPassword()));
         agent = agentRepository.save(agent);
 
         return modelMapper.map(agent, AgentDTO.class);

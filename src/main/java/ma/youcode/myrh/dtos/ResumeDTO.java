@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class ResumeDTO {
     private Long id;
+    private Long userId;
     @NotBlank
     private MultipartFile resume;
     private String resumeUrl;

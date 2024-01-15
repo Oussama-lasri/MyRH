@@ -3,12 +3,10 @@ package ma.youcode.myrh.services.implementations;
 import ma.youcode.myrh.dtos.JobOfferDTO;
 import ma.youcode.myrh.dtos.ResumeDTO;
 import ma.youcode.myrh.dtos.RecruiterDTO;
-import ma.youcode.myrh.models.JobOffer;
-import ma.youcode.myrh.models.Resume;
-import ma.youcode.myrh.models.Recruiter;
-import ma.youcode.myrh.models.Status;
+import ma.youcode.myrh.models.*;
 import ma.youcode.myrh.repositories.IJobOfferRepository;
 import ma.youcode.myrh.repositories.IResumeRepository;
+import ma.youcode.myrh.repositories.UserRepository;
 import ma.youcode.myrh.services.FilesStorageService;
 import ma.youcode.myrh.services.IResumeService;
 import ma.youcode.myrh.services.IResumeService;
@@ -32,6 +30,8 @@ public class ResumeService implements IResumeService {
     @Autowired
     IJobOfferRepository jobOfferRepository;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     ModelMapper modelMapper;
 
     @Autowired
@@ -44,8 +44,15 @@ public class ResumeService implements IResumeService {
         if (jobOffer.isEmpty()){
             return null;
         }
+
         Resume resume = modelMapper.map(resumeDTO, Resume.class);
         resume.setJobOffer(jobOffer.get());
+        if (resumeDTO.getUserId() != -1){
+            Optional<User> user = userRepository.findById(resumeDTO.getUserId().intValue());
+            resume.setUser(user.get());
+        }else{
+            resume.setUser(null);
+        }
 
         MultipartFile resumeFile = resumeDTO.getResume();
         try {

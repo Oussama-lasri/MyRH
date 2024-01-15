@@ -2,6 +2,7 @@ package ma.youcode.myrh.controllers;
 
 
 import jakarta.validation.Valid;
+import ma.youcode.myrh.dao.response.JwtAuthenticationResponse;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.services.implementations.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,11 @@ import java.util.logging.Logger;
 @CrossOrigin("*")
 @RestController
 public class RecruiterController {
-
     @Autowired
     RecruiterService recruiterService;
     @PostMapping
-    public ResponseEntity<RecruiterDTO> create(@ModelAttribute RecruiterDTO recruiterToSave){
-        Logger.getLogger(getClass().getName()).log(Level.SEVERE, recruiterToSave.toString());
-        RecruiterDTO recruiterDTO = recruiterService.save(recruiterToSave);
-        Logger.getLogger(getClass().getName()).log(Level.SEVERE, recruiterService.findByEmail(recruiterDTO.getEmail()).toString());
-
-        return ResponseEntity.ok(recruiterDTO);
+    public ResponseEntity<JwtAuthenticationResponse> create(@ModelAttribute RecruiterDTO recruiterToSave){
+        return ResponseEntity.ok(recruiterService.save(recruiterToSave));
     }
 
     @PostMapping("/{id}/{code}/validation")

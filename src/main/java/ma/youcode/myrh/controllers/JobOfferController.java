@@ -21,6 +21,12 @@ public class JobOfferController {
     @Autowired
     IJobOfferService jobOfferService;
 
+    @GetMapping()
+    public ResponseEntity<List<JobOfferDTO>> getAll() {
+        List<JobOfferDTO> jobOffers = jobOfferService.findAll();
+        return ResponseEntity.ok(jobOffers);
+    }
+
     @PostMapping("/{recruiterId}")
     public ResponseEntity<JobOfferDTO> create(
             @PathVariable long recruiterId,
@@ -29,18 +35,26 @@ public class JobOfferController {
         return ResponseEntity.ok(jobOfferDTO);
     }
 
+    @GetMapping("/{recruiterId}")
+    public ResponseEntity<List<JobOfferDTO>> getByRecruiter(
+            @PathVariable long recruiterId) {
+        List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByRecruiterId(recruiterId);
+        return ResponseEntity.ok(jobOfferDTOList);
+    }
+
     @GetMapping("/search={title}")
     public ResponseEntity<List<JobOfferDTO>> searchByTitle(
             @PathVariable String title) {
         List<JobOfferDTO> jobOfferDTOList = jobOfferService.findByTitle(title);
         return ResponseEntity.ok(jobOfferDTOList);
     }
+
     @PostMapping("/{jobOfferId}/{newStatus}")
     public ResponseEntity<String> searchByTitle(
             @PathVariable long jobOfferId,
             @PathVariable String newStatus
     ) {
-        String  response = jobOfferService.updateStatus(jobOfferId, Status.valueOf(newStatus));
+        String response = jobOfferService.updateStatus(jobOfferId, Status.valueOf(newStatus));
         return ResponseEntity.ok(response);
     }
 
@@ -49,12 +63,6 @@ public class JobOfferController {
             @PathVariable String status) {
         List<JobOfferDTO> jobOfferDTOList = jobOfferService.findAllByStatus(status);
         return ResponseEntity.ok(jobOfferDTOList);
-    }
-
-    @GetMapping()
-    public ResponseEntity<List<JobOfferDTO>> getAll() {
-        List<JobOfferDTO> jobOffers = jobOfferService.findAll();
-        return ResponseEntity.ok(jobOffers);
     }
 
     @GetMapping("/pageable")

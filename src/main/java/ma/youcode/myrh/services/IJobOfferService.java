@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IJobOfferService {
      JobOfferDTO save(JobOfferDTO jobOfferDTO, long recruiterId);
-     List<JobOfferDTO> findByRecruiter(RecruiterDTO recruiterDTO);
+     List<JobOfferDTO> findByRecruiterId(long id);
 
      List<JobOfferDTO> findByTitle(String title);
      Page<JobOfferDTO> findAllPageable(Pageable pageable);

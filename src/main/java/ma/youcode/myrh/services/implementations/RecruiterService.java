@@ -1,11 +1,15 @@
 package ma.youcode.myrh.services.implementations;
 
+import ma.youcode.myrh.dao.response.JwtAuthenticationResponse;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.dtos.ResponseMessage;
 import ma.youcode.myrh.models.Recruiter;
+import ma.youcode.myrh.models.User;
 import ma.youcode.myrh.repositories.IRecruiterRepository;
+import ma.youcode.myrh.repositories.UserRepository;
 import ma.youcode.myrh.services.FilesStorageService;
 import ma.youcode.myrh.services.IRecruiterService;
+import ma.youcode.myrh.services.JwtService;
 import ma.youcode.myrh.utils.EmailService;
 import ma.youcode.myrh.utils.ValidationCodeGenerator;
 import org.modelmapper.ModelMapper;
@@ -24,6 +28,8 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class RecruiterService implements IRecruiterService {
@@ -32,48 +38,61 @@ public class RecruiterService implements IRecruiterService {
     FilesStorageService storageService;
 
     @Autowired
+    JwtService jwtService;
+
+    @Autowired
     IRecruiterRepository recruiterRepository;
+
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     ModelMapper modelMapper;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EmailService emailService;
     private static final int VALIDATION_CODE_EXPIRATION_MINUTES = 3;
 
     @Override
-    public RecruiterDTO save(RecruiterDTO recruiterDTO) {
-        Recruiter recruiter = recruiterRepository.findByEmail(recruiterDTO.getEmail());
-        if (recruiter != null) {
-            System.out.println("this recruiter already exist(duplicated email)");
-            return null;
+    public JwtAuthenticationResponse save(RecruiterDTO recruiterDTO) {
+        Optional<User> user = userRepository.findById(recruiterDTO.getId().intValue());
+        if (user.isPresent()) {
+
+            recruiterDTO.setName(user.get().getName());
+            recruiterDTO.setEmail(user.get().getEmail());
+            recruiterDTO.setPassword(user.get().getPassword());
+
+            Recruiter recruiter = modelMapper.map(recruiterDTO, Recruiter.class);
+            userRepository.delete(user.get());
+
+            String code = ValidationCodeGenerator.generateValidationCode();
+            recruiter.setCodeValidation(code);
+
+            sendValidationCodeByEmail(recruiter.getEmail(), code);
+
+//            recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
+
+            MultipartFile imageFile = recruiterDTO.getImage();
+            try {
+                storageService.save(imageFile);
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+
+            recruiter.setImage(imageFile.getOriginalFilename());
+            Recruiter savedRecruiter = recruiterRepository.saveAndFlush(recruiter);
+            recruiterDTO = modelMapper.map(savedRecruiter, RecruiterDTO.class);
+
+            recruiterDTO.setImageUrl(recruiter.getImage());
+
+            user = userRepository.findById(savedRecruiter.getId().intValue());
+            var jwt = jwtService.generateToken(user.get());
+            return JwtAuthenticationResponse.builder().token(jwt).build();
         }
 
-        recruiter = modelMapper.map(recruiterDTO, Recruiter.class);
 
-        String code = ValidationCodeGenerator.generateValidationCode();
-        recruiter.setCodeValidation(code);
-
-        sendValidationCodeByEmail(recruiter.getEmail(), code);
-
-//        recruiter.setPassword(passwordEncoder.encode(recruiter.getPassword()));
-
-        MultipartFile imageFile = recruiterDTO.getImage();
-        try {
-            storageService.save(imageFile);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-        recruiter.setImage(imageFile.getOriginalFilename());
-        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(recruiter);
-        recruiterDTO = modelMapper.map(savedRecruiter, RecruiterDTO.class);
-
-        recruiterDTO.setImageUrl(recruiter.getImage());
-
-//        recruiterDTO = modelMapper.map(recruiter, RecruiterDTO.class);
-        return recruiterDTO;
+        return null;
     }
 
     @Override

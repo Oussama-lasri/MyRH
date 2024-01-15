@@ -1,5 +1,6 @@
 package ma.youcode.myrh.services.implementations;
 
+import jakarta.persistence.EntityNotFoundException;
 import ma.youcode.myrh.dtos.JobOfferDTO;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.models.JobOffer;
@@ -41,8 +42,9 @@ public class JobOfferService implements IJobOfferService {
     }
 
     @Override
-    public List<JobOfferDTO> findByRecruiter(RecruiterDTO recruiterDTO) {
-
+    public List<JobOfferDTO> findByRecruiterId(long id) {
+        Recruiter recruiterDTO = recruiterRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("recruiter not found"));
         List<JobOffer> jobOffers = jobOfferRepository.findByRecruiter(modelMapper.map(recruiterDTO, Recruiter.class));
 
         return jobOffers.stream()

@@ -10,11 +10,9 @@ import java.util.List;
 //@EqualsAndHashCode(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "agents")
-@DiscriminatorValue("AGENT")
+@Data
+//@DiscriminatorValue("AGENT")
 public class Agent extends User {
-
-    private String name;
 
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     private List<Recruiter> recruiters;
