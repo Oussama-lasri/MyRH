@@ -4,6 +4,7 @@ package ma.youcode.myrh.controllers;
 import jakarta.validation.Valid;
 import ma.youcode.myrh.dao.response.JwtAuthenticationResponse;
 import ma.youcode.myrh.dtos.RecruiterDTO;
+import ma.youcode.myrh.dtos.StatisticsDTO;
 import ma.youcode.myrh.services.implementations.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,13 @@ public class RecruiterController {
     public ResponseEntity<JwtAuthenticationResponse> create(@ModelAttribute RecruiterDTO recruiterToSave){
         return ResponseEntity.ok(recruiterService.save(recruiterToSave));
     }
+    @GetMapping("/statistics/{id}")
+    public ResponseEntity<StatisticsDTO> statistics(
+            @PathVariable long id) {
+        StatisticsDTO statisticsDTO = recruiterService.statistics(id);
+        return ResponseEntity.ok(statisticsDTO);
+    }
+
 
     @PostMapping("/{id}/{code}/validation")
     public ResponseEntity<Boolean> create(@PathVariable long id, @PathVariable String code) {
@@ -51,4 +59,6 @@ public class RecruiterController {
         RecruiterDTO recruiter = recruiterService.findByEmail(email);
         return ResponseEntity.ok(recruiter);
     }
+
+
 }

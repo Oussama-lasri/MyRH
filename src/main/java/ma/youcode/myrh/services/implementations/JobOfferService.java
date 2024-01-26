@@ -3,11 +3,14 @@ package ma.youcode.myrh.services.implementations;
 import jakarta.persistence.EntityNotFoundException;
 import ma.youcode.myrh.dtos.JobOfferDTO;
 import ma.youcode.myrh.dtos.RecruiterDTO;
+import ma.youcode.myrh.dtos.ResumeDTO;
 import ma.youcode.myrh.models.JobOffer;
 import ma.youcode.myrh.models.Recruiter;
+import ma.youcode.myrh.models.Resume;
 import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.repositories.IJobOfferRepository;
 import ma.youcode.myrh.repositories.IRecruiterRepository;
+import ma.youcode.myrh.repositories.IResumeRepository;
 import ma.youcode.myrh.services.IJobOfferService;
 import ma.youcode.myrh.utils.EmailService;
 import org.modelmapper.ModelMapper;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +28,8 @@ import java.util.stream.Collectors;
 public class JobOfferService implements IJobOfferService {
     @Autowired
     IJobOfferRepository jobOfferRepository;
+    @Autowired
+    IResumeRepository resumeRepository;
     @Autowired
     IRecruiterRepository recruiterRepository;
     @Autowired
@@ -75,6 +81,14 @@ public class JobOfferService implements IJobOfferService {
     }
 
     @Override
+    public List<JobOfferDTO> findAllByUserId(long id) {
+        List<JobOffer> jobOffers = jobOfferRepository.findByResumes_User_Id(id);
+        return jobOffers.stream()
+                .map(jobOffer -> modelMapper.map(jobOffer, JobOfferDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<JobOfferDTO> findAllByStatus(String status) {
         List<JobOffer> jobOffers = jobOfferRepository.findByStatus(Enum.valueOf(Status.class, status));
         return jobOffers.stream()
@@ -86,7 +100,7 @@ public class JobOfferService implements IJobOfferService {
     @Override
     public String updateStatus(long id, Status newStatus) {
         Optional<JobOffer> jobOfferOptional = jobOfferRepository.findById(id);
-        if (jobOfferOptional.isPresent()){
+        if (jobOfferOptional.isPresent()) {
             JobOffer jobOffer = jobOfferOptional.get();
             jobOffer.setStatus(newStatus);
 
@@ -96,7 +110,6 @@ public class JobOfferService implements IJobOfferService {
 
         return null;
     }
-
 
 
 }

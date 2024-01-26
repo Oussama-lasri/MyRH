@@ -40,17 +40,19 @@ public class ResumeService implements IResumeService {
     @Override
     public ResumeDTO save(ResumeDTO resumeDTO, long jobOfferId) {
 
-        Optional<JobOffer> jobOffer = jobOfferRepository.findById(jobOfferId);
-        if (jobOffer.isEmpty()){
+        Optional<JobOffer> jobOfferOptional = jobOfferRepository.findById(jobOfferId);
+
+        if (jobOfferOptional.isEmpty()) {
             return null;
         }
+        JobOffer jobOffer = jobOfferOptional.get();
 
         Resume resume = modelMapper.map(resumeDTO, Resume.class);
-        resume.setJobOffer(jobOffer.get());
-        if (resumeDTO.getUserId() != -1){
+        resume.setJobOffer(jobOffer);
+        if (resumeDTO.getUserId() != -1) {
             Optional<User> user = userRepository.findById(resumeDTO.getUserId().intValue());
             resume.setUser(user.get());
-        }else{
+        } else {
             resume.setUser(null);
         }
 
@@ -61,6 +63,10 @@ public class ResumeService implements IResumeService {
             throw new RuntimeException(e.getMessage());
         }
         resume.setResume(resumeFile.getOriginalFilename());
+
+        var recruiterStatus = jobOffer.getRecruiter().getStatus(); // Online/Offline
+        resume.setRecruiterStatus(recruiterStatus);
+
         resume = resumeRepository.save(resume);
 
         return modelMapper.map(resume, ResumeDTO.class);
@@ -76,23 +82,37 @@ public class ResumeService implements IResumeService {
                 .map(resume -> modelMapper.map(resume, ResumeDTO.class))
                 .collect(Collectors.toList());
     }
+
     @Override
     public List<ResumeDTO> findAll() {
         List<Resume> resumes = resumeRepository.findAll();
 //        List<Resume> resumes = resumeRepository.findAllByJobOffer_Recruiter_Id(1L);
         return resumes.stream()
-                .map(resume ->{
+                .map(resume -> {
 
-                        ResumeDTO resumeDTO = modelMapper.map(resume, ResumeDTO.class);
-                        resumeDTO.setResumeUrl(resume.getResume());
+                    ResumeDTO resumeDTO = modelMapper.map(resume, ResumeDTO.class);
+                    resumeDTO.setResumeUrl(resume.getResume());
                     System.out.println(resume.getResume());
-                        return resumeDTO;
-                        }).collect(Collectors.toList());
+                    return resumeDTO;
+                }).collect(Collectors.toList());
     }
 
     @Override
     public List<ResumeDTO> findAllByRecruiterId(long id) {
         List<Resume> resumes = resumeRepository.findAllByJobOffer_Recruiter_Id(id);
+        return resumes.stream()
+                .map(resume -> {
+
+                    ResumeDTO resumeDTO = modelMapper.map(resume, ResumeDTO.class);
+                    resumeDTO.setResumeUrl(resume.getResume());
+                    System.out.println(resume.getResume());
+                    return resumeDTO;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResumeDTO> findAllByUserId(long id) {
+        List<Resume> resumes = resumeRepository.findAllByUserId(id);
         return resumes.stream()
                 .map(resume -> {
 

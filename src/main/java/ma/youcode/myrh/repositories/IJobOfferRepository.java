@@ -13,9 +13,12 @@ import java.util.List;
 @Repository
 public interface IJobOfferRepository extends JpaRepository<JobOffer, Long> {
     JobOffer save(JobOffer jobOffer);
+
     List<JobOffer> findByRecruiter(Recruiter recruiter);
 
     List<JobOffer> findByStatus(Status status);
+
+    List<JobOffer> findByResumes_User_Id(Long userId);
 
     List<JobOffer> findByTitleContainsIgnoreCase(String title);
 }

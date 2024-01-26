@@ -11,4 +11,5 @@ public interface IRecruiterService {
 
      RecruiterDTO findByEmail(String email);
      Page<RecruiterDTO> findAll(Pageable pageable);
+     Object statistics(long id);
 }

@@ -14,5 +14,6 @@ public interface IResumeRepository extends JpaRepository<Resume, Long> {
     Resume save(Resume resume);
     List<Resume> findByJobOffer(JobOffer jobOffer);
     List<Resume> findAllByJobOffer_Recruiter_Id(Long recruiterId);
+    List<Resume> findAllByUserId(Long user_id);
 
 }

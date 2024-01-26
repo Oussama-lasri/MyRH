@@ -3,9 +3,14 @@ package ma.youcode.myrh.services.implementations;
 import ma.youcode.myrh.dao.response.JwtAuthenticationResponse;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.dtos.ResponseMessage;
+import ma.youcode.myrh.dtos.StatisticsDTO;
+import ma.youcode.myrh.models.JobOffer;
 import ma.youcode.myrh.models.Recruiter;
+import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.models.User;
+import ma.youcode.myrh.repositories.IJobOfferRepository;
 import ma.youcode.myrh.repositories.IRecruiterRepository;
+import ma.youcode.myrh.repositories.IResumeRepository;
 import ma.youcode.myrh.repositories.UserRepository;
 import ma.youcode.myrh.services.FilesStorageService;
 import ma.youcode.myrh.services.IRecruiterService;
@@ -26,6 +31,7 @@ import javax.swing.text.html.Option;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -36,6 +42,10 @@ public class RecruiterService implements IRecruiterService {
 
     @Autowired
     FilesStorageService storageService;
+    @Autowired
+    IJobOfferRepository jobOfferRepository;
+    @Autowired
+    IResumeRepository resumeRepository;
 
     @Autowired
     JwtService jwtService;
@@ -105,6 +115,30 @@ public class RecruiterService implements IRecruiterService {
     public Page<RecruiterDTO> findAll(Pageable pageable) {
         Page<Recruiter> recruiters = recruiterRepository.findAll(pageable);
         return recruiters.map(recruiter -> modelMapper.map(recruiter, RecruiterDTO.class));
+    }
+
+    @Override
+    public StatisticsDTO statistics(long id) {
+        StatisticsDTO statisticsDTO = new StatisticsDTO();
+        List<JobOffer> jobOffers = jobOfferRepository.findByRecruiter(recruiterRepository.findRecruiterById(id));
+        int pending = 0, accepted = 0, refused = 0;
+        for (JobOffer jobOffer : jobOffers
+        ) {
+            if (jobOffer.getStatus() == Status.Pending) {
+                pending++;
+            } else if (jobOffer.getStatus() == Status.Accepted) {
+                accepted++;
+            }else {
+                refused++;
+            }
+        }
+        statisticsDTO.setPendingJobOffersCount(pending);
+        statisticsDTO.setAcceptedJobOffersCount(accepted);
+        statisticsDTO.setRefusedJobOffersCount(refused);
+
+        statisticsDTO.setResumesCount(resumeRepository.findAllByJobOffer_Recruiter_Id(id).size());
+
+        return statisticsDTO;
     }
 
     private void sendValidationCodeByEmail(String email, String code) {

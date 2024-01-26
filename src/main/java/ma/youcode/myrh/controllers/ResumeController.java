@@ -26,7 +26,6 @@ public class ResumeController {
         return ResponseEntity.ok(resumeDTO);
     }
 
-
     @GetMapping()
     public ResponseEntity<List<ResumeDTO>> getAll() {
         List<ResumeDTO> resumes = resumeService.findAll();
@@ -38,6 +37,14 @@ public class ResumeController {
             @PathVariable long id
     ) {
         List<ResumeDTO> resumes = resumeService.findAllByRecruiterId(id);
+        return ResponseEntity.ok(resumes);
+    }
+
+    @GetMapping("/byUser/{id}")
+    public ResponseEntity<List<ResumeDTO>> getAllByUser(
+            @PathVariable long id
+    ) {
+        List<ResumeDTO> resumes = resumeService.findAllByUserId(id);
         return ResponseEntity.ok(resumes);
     }
 

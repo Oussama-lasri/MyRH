@@ -39,7 +39,7 @@ public class WebSocketController {
     public void disconnectUser(
                 @RequestBody ClientDTO clientDTO
     ) {
-        System.out.println(clientDTO);
+         System.out.println(clientDTO);
         var storedUser = repository.findById(clientDTO.getClientId()).orElse(null);
         if (storedUser != null) {
             storedUser.setStatus(UserStatus.OFFLINE);

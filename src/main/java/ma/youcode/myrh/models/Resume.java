@@ -13,6 +13,9 @@ public class Resume {
     private Long id;
     private String resume;
 
+    @Enumerated(EnumType.STRING)
+    protected  UserStatus recruiterStatus;
+
     @ManyToOne
     @JoinColumn(name = "job_offer_id")
     private JobOffer jobOffer;

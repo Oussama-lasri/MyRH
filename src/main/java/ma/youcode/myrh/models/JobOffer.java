@@ -25,6 +25,7 @@ public class JobOffer {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;

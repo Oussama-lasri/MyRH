@@ -2,6 +2,7 @@ package ma.youcode.myrh.controllers;
 
 
 import ma.youcode.myrh.dtos.JobOfferDTO;
+import ma.youcode.myrh.dtos.ResumeDTO;
 import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.services.IJobOfferService;
 import ma.youcode.myrh.services.implementations.JobOfferService;
@@ -24,6 +25,13 @@ public class JobOfferController {
     @GetMapping()
     public ResponseEntity<List<JobOfferDTO>> getAll() {
         List<JobOfferDTO> jobOffers = jobOfferService.findAll();
+        return ResponseEntity.ok(jobOffers);
+    }
+    @GetMapping("/byUser/{id}")
+    public ResponseEntity<List<JobOfferDTO>> getAllByUser(
+            @PathVariable long id
+    ) {
+        List<JobOfferDTO> jobOffers = jobOfferService.findAllByUserId(id);
         return ResponseEntity.ok(jobOffers);
     }
 

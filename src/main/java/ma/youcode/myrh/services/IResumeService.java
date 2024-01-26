@@ -14,4 +14,5 @@ public interface IResumeService {
      List<ResumeDTO> findByJobOffer(long  id);
      List<ResumeDTO> findAll();
      List<ResumeDTO> findAllByRecruiterId(long id);
+     List<ResumeDTO> findAllByUserId(long id);
 }
