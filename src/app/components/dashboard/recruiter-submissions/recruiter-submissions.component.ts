@@ -10,52 +10,52 @@ import { ResumeService } from 'src/app/services/resume.service';
   templateUrl: './recruiter-submissions.component.html',
   styleUrls: ['./recruiter-submissions.component.css']
 })
-export class RecruiterSubmissionsComponent implements OnInit{
+export class RecruiterSubmissionsComponent implements OnInit {
 
   submissions: Resume[] = [];
-  recruiter?: Recruiter|null;
+  resume?: Resume;
+  recruiter?: Recruiter | null;
 
   constructor(
     private router: Router,
     private resumeService: ResumeService,
     private authService: AuthenticationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // this.recruiter = this.authService.getAuthUser();
-    this.recruiter = <Recruiter> this.authService.getAuthUser();
+    this.recruiter = <Recruiter>this.authService.getAuthUser();
     console.log(this.recruiter);
-    
+
     this.loadJobOffers();
   }
 
   loadJobOffers(): void {
     if (this.recruiter && this.recruiter.id) {
-    this.resumeService.getAllResumeByJobOffer(this.recruiter.id).subscribe(
-      (data) => {
-        console.log(data);
-        this.submissions = data;
-      },
-      (error) => {
-        console.error('Error loading submissions:', error);
-      }
-    );
+      this.resumeService.getAllResumeByJobOffer(this.recruiter.id).subscribe(
+        (data) => {
+          console.log(data);
+          this.submissions = data;
+        },
+        (error) => {
+          console.error('Error loading submissions:', error);
+        }
+      );
     }
   }
-
-
-  
-  loadAll(): void {
-    if (this.recruiter && this.recruiter.id) {
-    this.resumeService.getAllResumeByJobOffer(this.recruiter.id).subscribe(
-      (data) => {
-        console.log(data);
-        this.submissions = data;
-      },
-      (error) => {
-        console.error('Error loading submissions:', error);
-      }
-    );
+  updateResumeStatus(newStatus: string, id?: number):void {
+    alert(newStatus);
+    if (this.recruiter && this.recruiter.id && id) {
+      this.resumeService.updateStatus(newStatus, id).subscribe(
+        (data) => {
+          this.loadJobOffers();
+          console.log(data);
+          this.resume = data;
+        },
+        (error) => {
+          console.error('Error updating submissions:', error);
+        }
+      );
     }
   }
 }

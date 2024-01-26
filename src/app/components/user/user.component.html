@@ -79,34 +79,44 @@
                 <th scope="col" class="px-6 py-3">educationalLevel</th>
                 <th scope="col" class="px-6 py-3">profile</th>
                 <th scope="col" class="px-6 py-3">salary[MAD]</th>
+                <th scope="col" class="px-6 py-3">status</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-                *ngFor="let jobOffer of jobOffers"
+                *ngFor="let resume of resumes"
               >
                 <th
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {{ jobOffer.title }}
+                  {{ resume.jobOffer.title }}
                 </th>
                 <td class="px-6 py-4">
-                  {{ jobOffer.city }}
+                  {{ resume.jobOffer.city }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ jobOffer.description }}
+                  {{ resume.jobOffer.description }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ jobOffer.educationalLevel }}
+                  {{ resume.jobOffer.educationalLevel }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ jobOffer.profile }}
+                  {{ resume.jobOffer.profile }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ jobOffer.salary }}
+                  {{ resume.jobOffer.salary }}
                 </td>
+
+
+                <td class="px-6 py-4" *ngIf="resume.resumeStatus">
+                  {{resume.resumeStatus}}
+                </td>
+                <td class="px-6 py-4" *ngIf="!resume.resumeStatus">
+                  Pending
+                </td>
+
               </tr>
             </tbody>
           </table>

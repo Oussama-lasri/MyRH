@@ -1,39 +1,54 @@
 <div class="max-w-screen-xl px-4 mx-auto">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-      >
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-        >
-          <tr>
-            <th scope="col" class="px-6 py-3">id</th>
-            <th scope="col" class="px-6 py-3">Resume</th>
-            <th scope="col" class="px-6 py-3">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-            *ngFor="let submission of submissions"
-          >
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              {{ submission.id }}
-            </th>
-            <td class="px-6 py-4">
-                <a [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" target="_blank">{{submission.resumeUrl}}</a>
-            </td>
-            <td class="px-6 py-4">
-              <span class="dot inline-block h-3 w-3 rounded-full mr-2" [ngClass]="{'bg-green-500': submission.recruiterStatus === 'ONLINE', 'bg-red-500': submission.recruiterStatus !== 'ONLINE'}"></span>
-              {{submission.recruiterStatus}}
-            </td>
-            
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">id</th>
+          <th scope="col" class="px-6 py-3">Resume</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+          *ngFor="let submission of submissions">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ submission.id }}
+          </th>
+          <td class="px-6 py-4">
+            <a (click)="updateResumeStatus('Seen', submission?.id ?? undefined)"
+              [href]="'http://localhost:8080/uploads/' + submission.resumeUrl"
+              target="_blank">{{submission.resumeUrl}}</a>
+          </td>
+          <td class="px-6 py-4">
+            <span class="dot inline-block h-3 w-3 rounded-full mr-2"
+              [ngClass]="{'bg-green-500': submission.recruiterStatus === 'ONLINE', 'bg-red-500': submission.recruiterStatus !== 'ONLINE'}"></span>
+            {{submission.recruiterStatus}}
+          </td>
+
+          <td class="px-6 py-4" *ngIf="submission.resumeStatus == 'Seen'">
+            <span (click)="updateResumeStatus('Accepted', submission?.id ?? undefined)"
+              class=" text-green-400 cursor-pointer hover:text-green-600 mx-2">Accepte</span>
+            <span (click)="updateResumeStatus('Refused', submission?.id ?? undefined)"
+              class=" text-red-400 cursor-pointer hover:text-red-600 mx-2">Reject</span>
+
+          </td>
+          <td class="px-6 py-4" *ngIf="submission.resumeStatus == 'Pending' || !submission.resumeStatus">
+            <a (click)="updateResumeStatus('Seen', submission?.id ?? undefined)"
+              [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" class="ml-auto" target="_blank">Read the
+              resume</a>
+          </td>
+          <td class="px-6 py-4 text-green-400 hover:text-green-600" *ngIf="submission.resumeStatus == 'Refused'">
+            Rejected
+          </td>
+          <td class="px-6 py-4 text-red-400 hover:text-red-600" *ngIf="submission.resumeStatus == 'Accepted'">
+            Accepted
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+</div>

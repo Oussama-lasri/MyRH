@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { JobOffer } from '../models/JobOffer';
 import { Resume } from '../models/Resume';
 import { JwtService } from './jwt.service';
@@ -19,13 +19,20 @@ export class ResumeService {
     };
     return this.http.post<Resume>(`${this.baseUrl}/${id}`, formData);
   }
+  updateStatus(newStatus: string, id: number): Observable<Resume> {
+    const requestOptions = {
+      headers: this.loadHeaders()
+    };
+    return this.http.post<Resume>(`${this.baseUrl}/${id}/${newStatus}`, {});
+  }
 
   getAllResumeByJobOffer(recruiterId: number): Observable<Resume[]> {
     return this.http.get<Resume[]>(`${this.baseUrl}` + "/byRecruiter/" + recruiterId);
   }
   getAllResumeByUser(userId: number): Observable<Resume[]> {
-    return this.http.get<Resume[]>(`${this.baseUrl}` + "/byUser/" + userId);
+    return this.http.get<Resume[]>(`${this.baseUrl}/byUser/${userId}`)
   }
+  
   // getAllResumeByJobOffer(recruiterId?: number): Observable<Resume[]> {
   //   return this.http.get<Resume[]>(`${this.baseUrl}`);
   // }
