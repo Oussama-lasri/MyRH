@@ -73,6 +73,14 @@ public class ResumeService implements IResumeService {
     }
 
     @Override
+    public ResumeDTO updateStatus(long id, ResumeStatus newStatus) {
+        Resume resume = resumeRepository.findById(id).get();
+        resume.setStatus(newStatus);
+        resumeRepository.save(resume);
+        return modelMapper.map(resume, ResumeDTO.class);
+    }
+
+    @Override
     public List<ResumeDTO> findByJobOffer(long id) {
         JobOffer jobOffer = jobOfferRepository.findById(id).get();
 
@@ -118,6 +126,7 @@ public class ResumeService implements IResumeService {
 
                     ResumeDTO resumeDTO = modelMapper.map(resume, ResumeDTO.class);
                     resumeDTO.setResumeUrl(resume.getResume());
+//                    resumeDTO.setJobOffer(resume.getJobOffer());
                     System.out.println(resume.getResume());
                     return resumeDTO;
                 }).collect(Collectors.toList());

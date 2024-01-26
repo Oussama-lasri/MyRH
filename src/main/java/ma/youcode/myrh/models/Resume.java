@@ -14,7 +14,10 @@ public class Resume {
     private String resume;
 
     @Enumerated(EnumType.STRING)
-    protected  UserStatus recruiterStatus;
+    protected ResumeStatus status = ResumeStatus.Pending;
+
+    @Enumerated(EnumType.STRING)
+    protected UserStatus recruiterStatus;
 
     @ManyToOne
     @JoinColumn(name = "job_offer_id")

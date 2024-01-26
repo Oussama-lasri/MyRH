@@ -2,6 +2,7 @@ package ma.youcode.myrh.controllers;
 
 
 import ma.youcode.myrh.dtos.ResumeDTO;
+import ma.youcode.myrh.models.ResumeStatus;
 import ma.youcode.myrh.models.Status;
 import ma.youcode.myrh.services.IResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class ResumeController {
     @PostMapping("/{jobOfferId}")
     public ResponseEntity<ResumeDTO> create(@PathVariable long jobOfferId, @ModelAttribute ResumeDTO resumeToSave) {
         ResumeDTO resumeDTO = resumeService.save(resumeToSave, jobOfferId);
+        return ResponseEntity.ok(resumeDTO);
+    }
+
+
+    @PostMapping("/{id}/{newStatus}")
+    public ResponseEntity<ResumeDTO> update(@PathVariable long id, @PathVariable ResumeStatus newStatus) {
+        ResumeDTO resumeDTO = resumeService.updateStatus(id, newStatus);
         return ResponseEntity.ok(resumeDTO);
     }
 
