@@ -21,6 +21,8 @@ import { ChatComponent } from './components/chat/chat.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { CondidateIndexComponent } from './components/condidate/condidate-index/condidate-index.component';
 import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
+import { UserComponent } from './components/user/user.component';
+import { RecruiterStatisticsComponent } from './components/dashboard/recruiter-statistics/recruiter-statistics.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { RecruiterCreateComponent } from './components/recruiter/recruiter-creat
     ChatComponent,
     SignupComponent,
     CondidateIndexComponent,
-    RecruiterCreateComponent
+    RecruiterCreateComponent,
+    UserComponent,
+    RecruiterStatisticsComponent
   ],
   imports: [
     BrowserModule,

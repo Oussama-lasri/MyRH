@@ -42,6 +42,13 @@ export class JobOfferService implements OnInit {
     return this.http.get<JobOffer[]>(`${this.baseUrl}/${id}`, requestOptions);
   }
 
+  getJobOffersByUserId(id: number): Observable<any[]> {
+    const requestOptions = {
+      headers: this.loadHeaders()
+    };
+    return this.http.get<any[]>(`${this.baseUrl}/byUser/${id}`, requestOptions);
+  }
+
   createJobOffer(
     jobOffer: JobOffer,
     recruiterId?: number

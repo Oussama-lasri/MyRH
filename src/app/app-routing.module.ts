@@ -13,6 +13,8 @@ import { ChatComponent } from './components/chat/chat.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
+import { UserComponent } from './components/user/user.component';
+import { RecruiterStatisticsComponent } from './components/dashboard/recruiter-statistics/recruiter-statistics.component';
 
 const routes: Routes = [
 
@@ -26,10 +28,12 @@ const routes: Routes = [
     children: [
       { path: 'recruiter-job-offers', component: RecruiterJobOffersComponent },
       { path: 'recruiter-submissions', component: RecruiterSubmissionsComponent },
+      { path: 'recruiter-statistics', component: RecruiterStatisticsComponent },
       { path: '', redirectTo: 'recruiter-job-offers', pathMatch: 'full' }, // Default child route
     ],
   },
   { path: 'agent-dash', component: DashboardAgentComponent },
+  { path: 'user-dash', component: UserComponent },
   { path: 'register', component: RecruiterCreateComponent },
   { path: 'validation', component: ValidationComponent },
   { path: 'jobOffer', component: JobOfferIndexComponent },

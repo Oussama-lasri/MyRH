@@ -52,14 +52,14 @@ export class JobOfferIndexComponent implements OnInit {
       let userId = -1;
       if (this.authUser?.id) {
         userId = this.authUser?.id;
-        alert("userId " + userId)
+        // alert("userId " + userId)
       }
 
       const formData = new FormData();
       formData.append('userId', `${userId}`);
       formData.append('resume', this.resume, this.resume.name);
 
-      alert("authId " + userId)
+      // alert("authId " + userId)
 
       this.resumeService.create(formData, id!).subscribe({
         next: (resume) => this.router.navigate(['/jobOffer']),
@@ -70,23 +70,10 @@ export class JobOfferIndexComponent implements OnInit {
     }
   }
 
-  loadJobOffers(): void {
-    this.service.getAllJobOffers().subscribe(
-      (data) => {
-        console.log(data);
-
-        this.jobOffers = data;
-      },
-      (error) => {
-        console.error('Error loading job offers:', error);
-      }
-    );
-  }
   loadAcceptedJobOffers(): void {
     this.service.getAllJobOffersByStatus('Accepted').subscribe(
       (data) => {
         console.log(data);
-
         this.jobOffers = data;
       },
       (error) => {

@@ -8,7 +8,8 @@
         >
           <tr>
             <th scope="col" class="px-6 py-3">id</th>
-            <th scope="col" class="px-6 py-3">resume</th>
+            <th scope="col" class="px-6 py-3">Resume</th>
+            <th scope="col" class="px-6 py-3">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -24,9 +25,12 @@
             </th>
             <td class="px-6 py-4">
                 <a [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" target="_blank">{{submission.resumeUrl}}</a>
-
-              <!-- <a [href]="'localhost:8080/uploads/static' + {{ submission.resumeUrl }}">submission link</a> -->
             </td>
+            <td class="px-6 py-4">
+              <span class="dot inline-block h-3 w-3 rounded-full mr-2" [ngClass]="{'bg-green-500': submission.recruiterStatus === 'ONLINE', 'bg-red-500': submission.recruiterStatus !== 'ONLINE'}"></span>
+              {{submission.recruiterStatus}}
+            </td>
+            
           </tr>
         </tbody>
       </table>

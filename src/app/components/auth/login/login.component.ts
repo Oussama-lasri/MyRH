@@ -9,6 +9,9 @@ import { jwtDecode } from 'jwt-decode';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { ClientDTO } from 'src/app/models/ClientDTO';
 import { AuthUser } from 'src/app/models/AuthUser';
+import { Resume } from 'src/app/models/Resume';
+import { ResumeService } from 'src/app/services/resume.service';
+import { JobOfferService } from 'src/app/services/job-offer.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +19,7 @@ import { AuthUser } from 'src/app/models/AuthUser';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   signInForm: FormGroup;
   errorMessages: string[] = [];
@@ -25,7 +28,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private jwtService: JwtService,
     private router: Router,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private resumeService: ResumeService,
+    private jobOfferService: JobOfferService
   ) {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
@@ -54,6 +59,7 @@ export class LoginComponent implements OnInit {
             () => {
               // Handle success, if needed
               console.log('User added successfully');
+              
             },
             (error) => {
               // Handle errors, if needed
@@ -62,6 +68,9 @@ export class LoginComponent implements OnInit {
           );
           if (tokenValue) {
             const userRole = this.authService.getAuthUser()?.role;
+            console.log(this.authService.getAuthUser());
+
+            const authId = this.authService.getAuthUser()?.id;
 
             switch (userRole) {
               case 'AGENT':
@@ -69,6 +78,9 @@ export class LoginComponent implements OnInit {
                 break;
               case 'RECRUITER':
                 this.router.navigate(['/dashboard']);
+                break;
+              case 'USER':
+                this.router.navigate(['/user-dash']);
                 break;
               default:
                 this.router.navigate(['/']);

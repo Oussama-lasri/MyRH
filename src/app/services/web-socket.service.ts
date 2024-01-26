@@ -8,6 +8,7 @@ import { AppComponent } from '../app.component';
 import { AuthUser } from '../models/AuthUser';
 import { AuthenticationService } from './authentication.service';
 import { ClientDTO } from '../models/ClientDTO';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,9 @@ export class WebSocketService {
   constructor(
     private jwtService: JwtService,
     private http: HttpClient,
-    private authService: AuthenticationService
-  ) {}
+    private authService: AuthenticationService,
+    private router: Router
+  ) { }
 
   async connect(): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -29,11 +31,11 @@ export class WebSocketService {
       } else {
         const socket = new SockJS('http://localhost:8080/ws');
         this.stompClient = Stomp.over(socket);
-  
+
         const requestOptions = {
           headers: this.loadHeaders(),
         };
-  
+
         this.stompClient.connect(requestOptions, () => {
           console.log('WebSocket Connected');
           resolve();
@@ -54,17 +56,18 @@ export class WebSocketService {
         observer.next();
         observer.complete();
       } else {
+        alert('error');
         console.error('WebSocket connection is not open.');
       }
     });
   }
-  
+
   disconnect(): void {
-    if (this.stompClient) {
+    this.connect().then(() => {
       const requestOptions = {
         headers: this.loadHeaders(),
       };
-      
+
       const authUser = <AuthUser>this.authService.getAuthUser();
       const clientDTO: ClientDTO = {
         clientId: authUser.id,
@@ -73,11 +76,11 @@ export class WebSocketService {
       this.stompClient.disconnect();
       console.log('WebSocket Disconnected');
 
-      
-    }
+      this.jwtService.clearAuthToken();
+      localStorage.removeItem('recruiter');
+      this.router.navigate(['/login']);
+    });
   }
-
-
 
   getConnectedUsers(): Observable<any[]> {
     const requestOptions = {

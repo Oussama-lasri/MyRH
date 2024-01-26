@@ -23,6 +23,9 @@ export class ResumeService {
   getAllResumeByJobOffer(recruiterId: number): Observable<Resume[]> {
     return this.http.get<Resume[]>(`${this.baseUrl}` + "/byRecruiter/" + recruiterId);
   }
+  getAllResumeByUser(userId: number): Observable<Resume[]> {
+    return this.http.get<Resume[]>(`${this.baseUrl}` + "/byUser/" + userId);
+  }
   // getAllResumeByJobOffer(recruiterId?: number): Observable<Resume[]> {
   //   return this.http.get<Resume[]>(`${this.baseUrl}`);
   // }
@@ -36,7 +39,7 @@ export class ResumeService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    alert(headers.get('Authorization'))
+    // alert(headers.get('Authorization'))
     return headers;
   }
 }

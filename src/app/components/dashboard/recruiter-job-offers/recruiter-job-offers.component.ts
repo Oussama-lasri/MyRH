@@ -27,16 +27,6 @@ export class RecruiterJobOffersComponent {
     
   }
 
-  loadJobOffers(): void {
-    this.jobOfferService.getAllJobOffers().subscribe(
-      (data) => {
-        this.jobOffers = data;
-      },
-      (error) => {
-        console.error('Error loading job offers:', error);
-      }
-    );
-  }
   loadJobOffersByRecruiterId(): void {
     if (this.authUser?.id != null) {
       this.jobOfferService.getJobOffersByRecruiterId(this.authUser?.id).subscribe(
