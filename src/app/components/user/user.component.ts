@@ -14,7 +14,7 @@ import { ResumeService } from 'src/app/services/resume.service';
 })
 export class UserComponent implements OnInit {
   jobOffers: JobOffer[] = [];
-  resumes: any[] = [];
+  resumes: Resume[] = [];
   auth?: AuthUser | null;
 
   errorMessages: string[] = [];
@@ -38,6 +38,8 @@ export class UserComponent implements OnInit {
       this.resumeService.getAllResumeByUser(this.auth?.id).subscribe(
         (data) => {
           this.resumes = data;
+          console.log(data);
+          
         },
         (error) => {
           console.error('Error load:', error);

@@ -91,29 +91,29 @@
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {{ resume.jobOffer.title }}
+                  {{ resume.jobOffer?.title }}
                 </th>
                 <td class="px-6 py-4">
-                  {{ resume.jobOffer.city }}
+                  {{ resume.jobOffer?.city }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ resume.jobOffer.description }}
+                  {{ resume.jobOffer?.description }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ resume.jobOffer.educationalLevel }}
+                  {{ resume.jobOffer?.educationalLevel }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ resume.jobOffer.profile }}
+                  {{ resume.jobOffer?.profile }}
                 </td>
                 <td class="px-6 py-4">
-                  {{ resume.jobOffer.salary }}
+                  {{ resume.jobOffer?.salary }}
                 </td>
 
 
-                <td class="px-6 py-4" *ngIf="resume.resumeStatus">
-                  {{resume.resumeStatus}}
+                <td class="px-6 py-4" *ngIf="resume.status">
+                  {{resume.status}}
                 </td>
-                <td class="px-6 py-4" *ngIf="!resume.resumeStatus">
+                <td class="px-6 py-4" *ngIf="!resume.status">
                   Pending
                 </td>
 

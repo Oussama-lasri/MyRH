@@ -5,6 +5,6 @@ export interface Resume {
   resume: any;
   resumeUrl: string;
   recruiterStatus?: any;
-  resumeStatus?: any;
+  status?: any;
   jobOffer?: JobOffer;
 }

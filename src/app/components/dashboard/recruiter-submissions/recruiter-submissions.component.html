@@ -28,22 +28,22 @@
             {{submission.recruiterStatus}}
           </td>
 
-          <td class="px-6 py-4" *ngIf="submission.resumeStatus == 'Seen'">
+          <td class="px-6 py-4" *ngIf="submission.status == 'Seen'">
             <span (click)="updateResumeStatus('Accepted', submission?.id ?? undefined)"
               class=" text-green-400 cursor-pointer hover:text-green-600 mx-2">Accepte</span>
             <span (click)="updateResumeStatus('Refused', submission?.id ?? undefined)"
               class=" text-red-400 cursor-pointer hover:text-red-600 mx-2">Reject</span>
 
           </td>
-          <td class="px-6 py-4" *ngIf="submission.resumeStatus == 'Pending' || !submission.resumeStatus">
+          <td class="px-6 py-4" *ngIf="submission.status == 'Pending' || !submission.status">
             <a (click)="updateResumeStatus('Seen', submission?.id ?? undefined)"
               [href]="'http://localhost:8080/uploads/' + submission.resumeUrl" class="ml-auto" target="_blank">Read the
               resume</a>
           </td>
-          <td class="px-6 py-4 text-green-400 hover:text-green-600" *ngIf="submission.resumeStatus == 'Refused'">
+          <td class="px-6 py-4 text-green-400 hover:text-green-600" *ngIf="submission.status == 'Refused'">
             Rejected
           </td>
-          <td class="px-6 py-4 text-red-400 hover:text-red-600" *ngIf="submission.resumeStatus == 'Accepted'">
+          <td class="px-6 py-4 text-red-400 hover:text-red-600" *ngIf="submission.status == 'Accepted'">
             Accepted
           </td>
 

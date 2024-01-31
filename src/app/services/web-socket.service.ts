@@ -56,7 +56,6 @@ export class WebSocketService {
         observer.next();
         observer.complete();
       } else {
-        alert('error');
         console.error('WebSocket connection is not open.');
       }
     });

@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import Swal from 'sweetalert2';
 import { JwtService } from 'src/app/services/jwt.service';
+import { AuthUser } from 'src/app/models/AuthUser';
+import { ClientDTO } from 'src/app/models/ClientDTO';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,6 +22,7 @@ export class SignupComponent {
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private jwtService: JwtService,
+    private webSocketService: WebSocketService,
     private router: Router
   ) {
     this.signUpForm = this.formBuilder.group({
@@ -38,7 +42,21 @@ export class SignupComponent {
         localStorage.setItem('token', JSON.stringify(jwtToken));
         this.jwtService.loadTokenFromStorage();
 
-        console.log(this.authService.getAuthUser());
+        this.webSocketService.connect().then(() => {
+          const authUser = <AuthUser>this.authService.getAuthUser();
+          const clientDTO: ClientDTO = {
+            clientId: authUser.id,
+          };
+          this.webSocketService.addUser(clientDTO).subscribe(
+            () => {
+              console.log('User added successfully');
+              
+            },
+            (error) => {
+              console.error('Error adding user:', error);
+            }
+          );
+        });
         
         this.router.navigate(['/']);
       },

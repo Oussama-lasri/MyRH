@@ -23,10 +23,8 @@ export class RecruiterSubmissionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.recruiter = this.authService.getAuthUser();
     this.recruiter = <Recruiter>this.authService.getAuthUser();
     console.log(this.recruiter);
-
     this.loadJobOffers();
   }
 
@@ -44,13 +42,12 @@ export class RecruiterSubmissionsComponent implements OnInit {
     }
   }
   updateResumeStatus(newStatus: string, id?: number):void {
-    alert(newStatus);
     if (this.recruiter && this.recruiter.id && id) {
       this.resumeService.updateStatus(newStatus, id).subscribe(
         (data) => {
-          this.loadJobOffers();
           console.log(data);
           this.resume = data;
+          this.loadJobOffers();
         },
         (error) => {
           console.error('Error updating submissions:', error);
