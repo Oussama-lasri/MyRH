@@ -22,7 +22,7 @@ public class ResumeDTO {
 
 //    @NotBlank
     @Enumerated(EnumType.STRING)
-    private ResumeStatus resumeStatus;
+    private ResumeStatus status = ResumeStatus.Pending;
 
     @Enumerated(EnumType.STRING)
     private UserStatus recruiterStatus;

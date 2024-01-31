@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import ma.youcode.myrh.dtos.AgentDTO;
 import ma.youcode.myrh.dtos.RecruiterDTO;
 import ma.youcode.myrh.models.Recruiter;
+import ma.youcode.myrh.models.UserStatus;
 import ma.youcode.myrh.repositories.UserRepository;
 import ma.youcode.myrh.services.FilesStorageService;
 import ma.youcode.myrh.services.UserService;
@@ -29,16 +30,17 @@ public class MyrhApplication implements CommandLineRunner {
 //        storageService.deleteAll();
         storageService.init();
     }
-//	@Bean
-//	CommandLineRunner start(RecruiterService recruiterService, UserRepository userRepository, PasswordEncoder passwordEncoder){
-//		return args -> {
-////			AgentDTO agentDTO = new AgentDTO();
-////			agentDTO.setName("Agent PM");
-////			agentDTO.setEmail("elgountariayoub21@gmail.com");
-////            String password = passwordEncoder.encode("agentpassword");
-////			agentDTO.setPassword(password);
-////			agentService.save(agentDTO);
-////            userRepository.save(agentDTO);
-//		};
-//	}
+	@Bean
+	CommandLineRunner start(AgentService agentService, UserRepository userRepository, PasswordEncoder passwordEncoder){
+		return args -> {
+			AgentDTO agentDTO = new AgentDTO();
+			agentDTO.setName("Agent PM");
+			agentDTO.setEmail("elgountariayoub21@gmail.com");
+			agentDTO.setPassword("agent");
+			agentDTO.setRole("AGENT");
+			agentDTO.setStatus(UserStatus.ONLINE);
+			agentService.save(agentDTO);
+//            userRepository.save(agentDTO);
+		};
+	}
 }

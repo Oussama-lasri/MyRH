@@ -72,6 +72,7 @@ public class RecruiterService implements IRecruiterService {
             recruiterDTO.setName(user.get().getName());
             recruiterDTO.setEmail(user.get().getEmail());
             recruiterDTO.setPassword(user.get().getPassword());
+            recruiterDTO.setStatus(user.get().getStatus());
 
             Recruiter recruiter = modelMapper.map(recruiterDTO, Recruiter.class);
             userRepository.delete(user.get());
