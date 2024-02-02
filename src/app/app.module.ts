@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -23,6 +24,15 @@ import { CondidateIndexComponent } from './components/condidate/condidate-index/
 import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
 import { UserComponent } from './components/user/user.component';
 import { RecruiterStatisticsComponent } from './components/dashboard/recruiter-statistics/recruiter-statistics.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SucessComponent } from './components/stripe/sucess/sucess.component';
+import { CancelComponent } from './components/stripe/cancel/cancel.component';
+import { CheckoutComponent } from './components/stripe/checkout/checkout.component';
+import { HttpClientModule } from '@angular/common/http';
+import {MatCardModule} from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { SubscriptionComponent } from './components/stripe/subscription/subscription.component';
+
 
 @NgModule({
   declarations: [
@@ -45,13 +55,23 @@ import { RecruiterStatisticsComponent } from './components/dashboard/recruiter-s
     CondidateIndexComponent,
     RecruiterCreateComponent,
     UserComponent,
-    RecruiterStatisticsComponent
+    RecruiterStatisticsComponent,
+    SucessComponent,
+    CancelComponent,
+    CheckoutComponent,
+    SubscriptionComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    HttpClientModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

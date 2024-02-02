@@ -38,14 +38,16 @@ export class SignupComponent {
 
     const signUpFormValue = { ...this.signUpForm.value };
     this.authService.signUp(signUpFormValue).subscribe({
-      next: (jwtToken) => {
-        localStorage.setItem('token', JSON.stringify(jwtToken));
+      next: (jwtToken : any) => {
+        console.log(jwtToken.token);
+        localStorage.setItem('token', jwtToken.token);
         this.jwtService.loadTokenFromStorage();
 
         this.webSocketService.connect().then(() => {
           const authUser = <AuthUser>this.authService.getAuthUser();
+          console.log(authUser);
           const clientDTO: ClientDTO = {
-            clientId: authUser.id,
+          //  clientId: authUser.id,
           };
           this.webSocketService.addUser(clientDTO).subscribe(
             () => {

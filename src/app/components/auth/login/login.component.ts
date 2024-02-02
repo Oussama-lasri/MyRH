@@ -52,8 +52,9 @@ export class LoginComponent implements OnInit {
 
         this.webSocketService.connect().then(() => {
           const authUser = <AuthUser>this.authService.getAuthUser();
+          console.log(authUser);
           const clientDTO: ClientDTO = {
-            clientId: authUser.id,
+           clientId: authUser.id,
           };
           this.webSocketService.addUser(clientDTO).subscribe(
             () => {

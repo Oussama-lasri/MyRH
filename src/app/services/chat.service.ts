@@ -21,7 +21,7 @@ export class ChatService {
     this.stompClient.connect({}, () => {
       this.stompClient.subscribe(`/topic/${roomId}`, (message: any) => {
         const messageConent = JSON.parse(message.body);
-        console.log(messageConent);
+        //console.log(messageConent);
       });
     });
   }

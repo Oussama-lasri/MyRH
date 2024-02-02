@@ -10,15 +10,17 @@ export class JwtService {
   // const decodedToken: any = jwt_decode('token');
 
   constructor(private http: HttpClient) {
+    console.log("token from constructor of JwtService" + localStorage.getItem('token'));
     this.loadTokenFromStorage();
   }
 
   loadTokenFromStorage(): void {
-    const storedToken = window.localStorage.getItem('token');
-
-    if (storedToken) {
-      const parsedToken = JSON.parse(storedToken);
-      this.authToken = parsedToken.token;
+    const storedToken = localStorage.getItem('token') ;
+      console.log(localStorage.getItem('token'))
+      // debugger
+    if (storedToken && storedToken != "") {
+    //  const parsedToken = JSON.parse(storedToken);
+      this.authToken = storedToken;
     }
   }
 

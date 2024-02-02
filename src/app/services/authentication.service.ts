@@ -46,9 +46,11 @@ export class AuthenticationService {
     }
 
     const tokenValue = this.jwtService.getAuthToken!();
+    //console.log("token " + tokenValue);
 
     if (tokenValue) {
       const decodedToken: any = jwtDecode(tokenValue);
+    //  alert("token decode => "+decodedToken)
 
       const authUser: AuthUser = {
         id: decodedToken.id,

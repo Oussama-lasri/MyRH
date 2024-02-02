@@ -15,6 +15,10 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RecruiterCreateComponent } from './components/recruiter/recruiter-create/recruiter-create.component';
 import { UserComponent } from './components/user/user.component';
 import { RecruiterStatisticsComponent } from './components/dashboard/recruiter-statistics/recruiter-statistics.component';
+import { CheckoutComponent } from './components/stripe/checkout/checkout.component';
+import { CancelComponent } from './components/stripe/cancel/cancel.component';
+import { SucessComponent } from './components/stripe/sucess/sucess.component';
+import { SubscriptionComponent } from './components/stripe/subscription/subscription.component';
 
 const routes: Routes = [
 
@@ -39,7 +43,13 @@ const routes: Routes = [
   { path: 'jobOffer', component: JobOfferIndexComponent },
   { path: 'jobOffer-create', component: JobOfferCreateComponent },
   // {path:"jobOffer-details", component: JobOfferDetailsComponent}
-
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+  },
+  { path: 'cancel', component: CancelComponent },
+  { path: 'success', component: SucessComponent },
+  { path: 'subscription', component: SubscriptionComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' },
 ];
 
