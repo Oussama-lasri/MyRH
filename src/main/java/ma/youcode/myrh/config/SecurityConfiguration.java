@@ -34,7 +34,9 @@ public class SecurityConfiguration {
                                         "/api/v1/jobOffers/status=Accepted",
                                         "/api/v1/resumes/**",
                                         "/uploads/**",
-                                        "/ws/**"
+                                        "/ws/**",
+                                        "/api/payment",
+                                        "/api/subscription"
                                 )
                                 .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
