@@ -30,6 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userRepository.save(user);
 
         var jwt = jwtService.generateToken(user);
+        System.out.println(jwt);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 
@@ -40,6 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtService.generateToken(user);
+        System.out.println(jwt);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 }
