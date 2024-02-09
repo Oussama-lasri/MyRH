@@ -23,6 +23,7 @@ export class AuthenticationService {
 
   signUp(signUpRequest: SignUpRequest): Observable<JwtAuthenticationResponse> {
     return this.http.post<JwtAuthenticationResponse>(
+      
       `${this.singUpUrl}`,
       signUpRequest
     );

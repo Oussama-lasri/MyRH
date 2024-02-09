@@ -1,6 +1,7 @@
+import { MyHttpClientService } from './../../../Oauth/my-http-client.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recruiter } from 'src/app/models/Recruiter';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { JwtService } from 'src/app/services/jwt.service';
@@ -19,7 +20,11 @@ import { JobOfferService } from 'src/app/services/job-offer.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  ngOnInit(): void { }
+  url : String = "" 
+
+  ngOnInit(): void {
+    this.signInWithOauth();
+   }
 
   signInForm: FormGroup;
   errorMessages: string[] = [];
@@ -30,7 +35,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private webSocketService: WebSocketService,
     private resumeService: ResumeService,
-    private jobOfferService: JobOfferService
+    private jobOfferService: JobOfferService,
+    private http : MyHttpClientService ,
+    private route: ActivatedRoute
   ) {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
@@ -70,7 +77,6 @@ export class LoginComponent implements OnInit {
           if (tokenValue) {
             const userRole = this.authService.getAuthUser()?.role;
             console.log(this.authService.getAuthUser());
-
             const authId = this.authService.getAuthUser()?.id;
 
             switch (userRole) {
@@ -100,6 +106,27 @@ export class LoginComponent implements OnInit {
         });
       },
     });
+  }
+
+  async signInWithOauth(){
+  
+    this.http.get("auth/url").subscribe((data : any)=> {
+      console.log(data)
+      this.url = data.url 
+      console.log(this.url);
+    });
+  }
+
+  getToken() {
+    this.route.queryParams.subscribe(params  => {
+      if(params["code"] !== undefined){
+        console.log(params["code"]);
+            this.http.getToken(params["code"]).subscribe((result : any) => {
+              console.log(result);
+              localStorage.setItem('token', result);
+            })
+      }
+    })
   }
 
   errorMessagesMapping: { [key: string]: string } = {};
